@@ -9,13 +9,13 @@ class StartSMS < UseCase
      questions = Question.all(:questionset_id => question_set.id)
      return failure(:no_questions_in_set) if questions.size == 0
 
-     number = questions.count - 1
-     current_question_id = rand(0..number)
-     current_question = Question.get(current_question_id)
-     user.last_question_id = current_question_id
-     user.save
-     message = current_question.text
-     success :message => message
+     # number = questions.size - 1
+     # current_question_id = rand(0..number)
+     # current_question = Question.get(current_question_id)
+     # user.last_question_id = current_question_id
+     # user.save
+     # message = current_question.text
+     success :message => "question"
   end
 end
 
