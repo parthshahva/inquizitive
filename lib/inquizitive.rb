@@ -1,4 +1,5 @@
 require_relative './db.rb'
+require_relative './usecase/usecase.rb'
 require_relative './usecase/create_question_set.rb'
 require_relative './usecase/create_question.rb'
 require_relative './usecase/end_sms.rb'
