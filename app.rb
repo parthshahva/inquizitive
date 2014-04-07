@@ -41,36 +41,35 @@ post '/sign-up' do
   erb :index
 end
 
-get '/hello' do
-  account_sid = 'AC79afc966ef3d304699eadbd31e7b066d'
-  auth_token = '5de6b5fb8c98a947042ca99d0050c5c8'
-  @client = Twilio::REST::Client.new account_sid, auth_token
+# get '/hello' do
+#   account_sid = 'AC79afc966ef3d304699eadbd31e7b066d'
+#   auth_token = '5de6b5fb8c98a947042ca99d0050c5c8'
+#   @client = Twilio::REST::Client.new account_sid, auth_token
 
-  message = @client.account.sms.messages.create(:body => "hello",
-          :to => 7576507728,     # Replace with your phone number
-          :from => "+15122706595")   # Replace with your Twilio number
-end
+#   message = @client.account.sms.messages.create(:body => "hello",
+#           :to => 7576507728,     # Replace with your phone number
+#           :from => "+15122706595")   # Replace with your Twilio number
+# end
 
 
 get '/respond' do
   account_sid = 'AC79afc966ef3d304699eadbd31e7b066d'
   auth_token = '5de6b5fb8c98a947042ca99d0050c5c8'
-  @client = Twilio::REST::Client.new account_sid, auth_token
   result = nil
-  # if params[:Body].split[0].downcase == "start"
-  #   result = StartSMS.run(:question_set_name => params[:Body].split[1], :phone_number => params[:From])
+  if params[:Body].split[0].downcase == "start"
+    result = StartSMS.run(:question_set_name => params[:Body].split[1], :phone_number => params[:From])
   # elsif params[:Body].split[0].downcase == "end"
   #   result = EndSMS.run(:phone_number => params[:From])
   # else
   #   result = QuestionSMS.run(:answer => params[:Body], :phone_number => params[:From])
-
+  end
 
   twiml = Twilio::TwiML::Response.new do |r|
-    # if result.success?
-      r.Message "hello"
-    # elsif result.error?
-      # r.Message "hello"
-    # end
+    if result.success?
+      r.Message "#{result.message}"
+    elsif result.error?
+      r.Message "#{result.error}"
+    end
   end
   twiml.text
 end
