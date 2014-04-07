@@ -2,6 +2,10 @@ require 'sinatra'
 enable :sessions
 require_relative 'lib/inquizitive.rb'
 
+configure :development do
+  DataMapper.setup(:default, 'sqlite://inquizitive.db')
+end
+
 configure :production do
   DataMapper.setup(:default, ENV['DATABASE_URL'])
 end
