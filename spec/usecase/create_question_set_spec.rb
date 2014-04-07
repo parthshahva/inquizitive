@@ -1,5 +1,5 @@
 require 'spec_helper'
 
-describe CreateQuestion do
+describe CreateQuestionSet do
 
 end
