@@ -1,4 +1,5 @@
 require 'sinatra'
+require 'twilio-ruby'
 enable :sessions
 require_relative 'lib/inquizitive.rb'
 
