@@ -3,7 +3,7 @@ enable :sessions
 require_relative 'lib/inquizitive.rb'
 
 configure :development do
-  DataMapper.setup(:default, 'sqlite://inquizitive.db')
+  DataMapper.setup(:default, "sqlite://#{DIR.pwd}/inquizitive.db")
 end
 
 configure :production do
@@ -30,11 +30,12 @@ get '/sign-up' do
 end
 
 post '/sign-up' do
-  result = SignUp.run({:username => params[:username], :password => params[:password], :phone_number => params[:phone_number]})
-  if result.success?
-    @message = "Nice, #{result.user.username}. You have been created"
+  @user = User.new(:username => params[:username], :password => params[:password], :phone_number => params[:phone_number])
+  # result = SignUp.run({:username => params[:username], :password => params[:password], :phone_number => params[:phone_number]})
+  if @user.valid?
+    @user.save
   else
-    @message = "#{result.error}"
+    @user.errors[:message]
   end
   erb :index
 end

@@ -1,12 +1,12 @@
-require 'dm-core'
-require 'dm-migrations'
-require 'dm-constraints'
-
+# require 'dm-core'
+# require 'dm-migrations'
+# require 'dm-constraints'
+require 'data_mapper'
 
 class User
   include DataMapper::Resource
   property :id, Serial
-  property :username, String
+  property :username, String, :unique => true, :message => "username already exists"
   property :password, String
   property :phone_number, String
   property :last_question_id, Integer
