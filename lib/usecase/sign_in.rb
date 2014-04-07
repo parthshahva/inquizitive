@@ -6,7 +6,6 @@ class SignIn < UseCase
 
     session = Session.create( :user_id => user.id )
 
-    # Return a success with relevant data
     success :session_id => session.id, :user => user
   end
 end
