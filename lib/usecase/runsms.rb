@@ -1,7 +1,7 @@
 class RunSMS < UseCase
   def run(inputs)
      user = User.first(phone_number: inputs[:phone_number])
-     return failure(:user_does_not_exist) if user.nil?
+     return failure(:user_not_there) if user.nil?
      return failure(:session_not_active) if user.last_question_id.nil?
 
      question = Question.get(user.last_question_id)
