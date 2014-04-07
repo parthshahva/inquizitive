@@ -1,6 +1,6 @@
 class SignOut < UseCase
   def run(inputs)
-    session = Session.get(inputs[:session_id])
+    session = Session.first(session_id: inputs[:session_id])
     return failure(:session_not_found) if session == nil
     session.destroy
 
