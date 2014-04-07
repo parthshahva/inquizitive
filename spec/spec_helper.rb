@@ -1,8 +1,9 @@
 require_relative '../lib/inquizitive.rb'
+require 'rack/test'
 
 RSpec.configure do |config|
   config.include Rack::Test::Methods
-  DataMapper::setup(:default, "sqlite:///inquizitive.db")
+  DataMapper::setup(:default, "sqlite://#{Dir.pwd}/inquizitive.db")
 
   DataMapper.finalize
   User.auto_migrate!
