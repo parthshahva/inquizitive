@@ -6,6 +6,8 @@ GEM
     daemons (1.1.9)
     data_objects (0.10.14)
       addressable (~> 2.1)
+    dm-constraints (1.2.0)
+      dm-core (~> 1.2.0)
     dm-core (1.2.1)
       addressable (~> 2.3)
     dm-do-adapter (1.2.0)
@@ -49,6 +51,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  dm-constraints
   dm-core
   dm-migrations
   dm-postgres-adapter
