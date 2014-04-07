@@ -1,5 +1,4 @@
 require 'sinatra'
-enable :sessions
 require_relative 'lib/inquizitive.rb'
 set :bind, "0.0.0.0"
 configure :development do
@@ -10,6 +9,8 @@ configure :production do
   DataMapper.setup(:default, ENV['DATABASE_URL'])
 end
 
+enable :sessions
+
 get '/' do
   erb :index
 end
@@ -18,11 +19,12 @@ post '/sign-in' do
   result = SignIn.run({:username => params[:username], :password => params[:password]})
   if result.success?
     @message = "It worked #{result.user.username}"
-    session[:session_id] = result.session_id
+
+    session[:key] = result.session_id
+    redirect to ("/home")
   else
     @message = "#{result.error}"
   end
-  erb :index
 end
 
 get '/sign-up' do
@@ -44,4 +46,12 @@ post '/sign-up' do
 
   end
   erb :index
+end
+
+get "/home" do
+  key = session[:key]
+  sess = Session.get(session[:key])
+  @user = User.get(sess.user_id)
+  erb :home
+
 end
