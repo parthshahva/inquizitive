@@ -18,8 +18,8 @@ post '/sign-in' do
   else
     @message = "Try Again"
   end
-  end
-erb :index
+  erb :index
+end
 
 get '/sign-up' do
   erb :"sign-up"
