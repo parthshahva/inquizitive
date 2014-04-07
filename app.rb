@@ -13,9 +13,17 @@ get '/' do
 end
 
 post '/sign-in' do
-
+result = SignIn.run(:username => params[:username], :password => params[:password])
+if result.success?
+  @message = "It worked #{result.user.username}"
+  sessions[:session_id] = result.session_id
+else
+  @message = "Try Again"
 end
+end
+erb :index
 
 get '/sign-up' do
+  result = SignUp.run()
   erb :"sign-up"
 end
