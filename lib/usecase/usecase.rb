@@ -1,7 +1,4 @@
 require 'ostruct'
-
-module MBP
-
   class UseCase
     # Convenience method that lets us call `.run` directly on the class
     def self.run(inputs)
@@ -34,4 +31,4 @@ module MBP
       false
     end
   end
-end
+
