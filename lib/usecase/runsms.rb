@@ -26,6 +26,6 @@ class RunSMS < UseCase
      user.last_question_id = current_question_id
      user.save
      message = current_question.text
-     success :mesage => "You are #{answer_checker}. #{message}"
+     success :message => "You are #{answer_checker}. #{message}"
   end
 end

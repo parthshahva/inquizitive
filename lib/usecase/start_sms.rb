@@ -1,6 +1,6 @@
 class StartSMS < UseCase
   def run(inputs)
-     user = User.first(phone_number: inputs[:phone_number])
+     user = User.first(phone_number: inputs[:phone_number].to_s)
      return failure(:user_does_not_exist) if user.nil?
 
      question_set = Questionset.get(inputs[:question_set_name])
@@ -15,6 +15,7 @@ class StartSMS < UseCase
      user.last_question_id = current_question_id
      user.save
      message = current_question.text
-     success :mesage => message
+     success :message => message
   end
 end
+
