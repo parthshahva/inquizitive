@@ -68,9 +68,9 @@ get '/respond' do
         r.Message "Sorry, there is no Inquizitive session in progress"
       elsif result.error == :session_not_active
         r.Message "Sorry, there is no active session. Text 'Start' followed by the name of the question set"
-      else
-        r.Message "IDK bro"
       end
+    else
+      r.Message "IDK bro"
     end
   end
   twiml.text
