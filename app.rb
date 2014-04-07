@@ -53,7 +53,7 @@ get '/respond' do
   #   result = EndSMS.run(:phone_number => params[:From])
   # else
   #   result = QuestionSMS.run(:answer => params[:Body], :phone_number => params[:From])
-  end
+
 
   twiml = Twilio::TwiML::Response.new do |r|
     # if result.success?
