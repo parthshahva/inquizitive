@@ -11,7 +11,7 @@ get '/' do
 end
 
 post '/sign-in' do
-  result = SignIn.run(:username => params[:username], :password => params[:password])
+  result = SignIn.run({:username => params[:username], :password => params[:password]})
   if result.success?
     @message = "It worked #{result.user.username}"
     sessions[:session_id] = result.session_id
@@ -26,7 +26,7 @@ get '/sign-up' do
 end
 
 post '/sign-up' do
-  result = SignUp.run(:username => params[:username], :password => params[:password], :phone_number => params[:phone_number])
+  result = SignUp.run({:username => params[:username], :password => params[:password], :phone_number => params[:phone_number]})
   if result.success?
     @message = "Nice, #{result.user.username}. You have been created"
   else
