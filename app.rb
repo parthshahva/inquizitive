@@ -61,7 +61,7 @@ get '/respond' do
       if result.error == :user_does_not_exist
       r.Message "#{params[:From]}"
       elsif result.error == :question_set_not_found
-        r.Message "Sorry, we could not find a question set with that name"
+        r.Message "#{params[:Body].split[1..-1]}"
       elsif result.error == :no_questions_in_set
         r.Message "Sorry, there are no questions in that set"
       elsif result.error == :no_session_in_progress

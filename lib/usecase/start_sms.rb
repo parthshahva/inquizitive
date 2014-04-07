@@ -3,7 +3,7 @@ class StartSMS < UseCase
      user = User.first(:phone_number => inputs[:phone_number][2..-1])
      return failure(:user_does_not_exist) if user.nil?
 
-     question_set = Questionset.get(:name => inputs[:question_set_name])
+     question_set = Questionset.first(:name => inputs[:question_set_name], :user_id => user.id)
      return failure(:question_set_not_found) if question_set.nil?
 
      questions = Question.all(:question_id => question_set.id)
