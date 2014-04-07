@@ -59,7 +59,7 @@ get '/respond' do
       r.Message "#{result.message}"
     elsif result.error?
       if result.error == :user_does_not_exist
-      r.Message "Sorry, we could not find you in the system!"
+      r.Message "#{params[:From]}"
       elsif result.error == :question_set_not_found
         r.Message "Sorry, we could not find a question set with that name"
       elsif result.error == :no_questions_in_set
@@ -68,8 +68,6 @@ get '/respond' do
         r.Message "Sorry, there is no Inquizitive session in progress"
       elsif result.error == :session_not_active
         r.Message "Sorry, there is no active session. Text 'Start' followed by the name of the question set"
-      elsif result.error == :user_not_there
-        r.Message "Seems you are not here, buddy."
       end
     end
   end

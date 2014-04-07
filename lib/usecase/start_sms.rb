@@ -1,6 +1,6 @@
 class StartSMS < UseCase
   def run(inputs)
-     user = User.first(phone_number: inputs[:phone_number].to_s)
+     user = User.first(:phone_number.like => inputs[:phone_number].to_s)
      return failure(:user_does_not_exist) if user.nil?
 
      question_set = Questionset.get(inputs[:question_set_name])
