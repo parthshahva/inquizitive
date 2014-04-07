@@ -56,6 +56,10 @@ get "/home" do
 end
 
 get '/create-question' do
+  key = session[:key]
+  sess = Session.get(session[:key])
+  @user = User.get(sess.user_id)
+  @sets = Questionset
   erb :"create-question"
 end
 
