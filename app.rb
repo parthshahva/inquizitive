@@ -1,9 +1,9 @@
 require 'sinatra'
 enable :sessions
 require_relative 'lib/inquizitive.rb'
-
+set :bind, "0.0.0.0"
 configure :development do
-  DataMapper.setup(:default, "sqlite://#{DIR.pwd}/inquizitive.db")
+  DataMapper.setup(:default, "sqlite://#{Dir.pwd}/inquizitive.db")
 end
 
 configure :production do
@@ -30,12 +30,18 @@ get '/sign-up' do
 end
 
 post '/sign-up' do
-  @user = User.new(:username => params[:username], :password => params[:password], :phone_number => params[:phone_number])
+  @user = User.new(:username => params[:username], :password => params[:password], :phone_number => params[:phone_number].delete("^0-9"))
   # result = SignUp.run({:username => params[:username], :password => params[:password], :phone_number => params[:phone_number]})
   if @user.valid?
     @user.save
+    @message = "user created!"
   else
-    @user.errors[:message]
+    puts @user.errors.inspect
+    # @user.errors.each do |e|
+    #   puts e
+    # end
+    # @message = @user[:messages]
+
   end
   erb :index
 end

@@ -6,9 +6,9 @@ require 'data_mapper'
 class User
   include DataMapper::Resource
   property :id, Serial
-  property :username, String, :unique => true, :message => "username already exists"
-  property :password, String
-  property :phone_number, String
+  property :username, String, :unique => true
+  property :password, String, :length => 8..20
+  property :phone_number, String, :unique => true, :length => 10
   property :last_question_id, Integer
   has n, :questionset
   has n, :session

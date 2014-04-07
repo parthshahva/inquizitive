@@ -32,7 +32,20 @@ require_relative '../app.rb'
         }
       end.should {
         change(User, :count).by(1)
-
       }
     end
+
+    it 'should throw an error if phone number contains anything but numbers' do
+      lambda do
+        post "/sign-up", params = {
+          :username => 'poppycock',
+          :password  => 'titty',
+          :phone_number  => 'abcdefghijk',
+        }
+      end.should {
+        change(User, :count).by(50)
+      }
+
+    end
+
 end
