@@ -16,7 +16,7 @@ post '/sign-in' do
     @message = "It worked #{result.user.username}"
     sessions[:session_id] = result.session_id
   else
-    @message = "Try Again"
+    @message = "#{result.error}"
   end
   erb :index
 end
@@ -30,7 +30,7 @@ post '/sign-up' do
   if result.success?
     @message = "Nice, #{result.user.username}. You have been created"
   else
-    @message = "Seems to have failed"
+    @message = "#{result.error}"
   end
   erb :index
 end
