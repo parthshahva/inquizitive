@@ -40,6 +40,15 @@ post '/sign-up' do
   erb :index
 end
 
+get '/hello' do
+  account_sid = 'AC79afc966ef3d304699eadbd31e7b066d'
+  auth_token = '5de6b5fb8c98a947042ca99d0050c5c8'
+  @client = Twilio::REST::Client.new account_sid, auth_token
+
+  message = @client.account.sms.messages.create(:body => "hello",
+          :to => 7576507728,     # Replace with your phone number
+          :from => "+15122706595")   # Replace with your Twilio number
+end
 
 
 get '/respond' do
