@@ -1,4 +1,5 @@
 require 'sinatra'
+enable :sessions
 require_relative 'lib/inquizitive.rb'
 set :bind, "0.0.0.0"
 configure :development do
@@ -8,8 +9,6 @@ end
 configure :production do
   DataMapper.setup(:default, ENV['DATABASE_URL'])
 end
-
-enable :sessions
 
 get '/' do
   erb :index
@@ -55,3 +54,20 @@ get "/home" do
   erb :home
 
 end
+
+get '/create-question' do
+  erb :"create-question"
+end
+
+post '/create-question' do
+  erb :"create-question"
+end
+
+get '/create-question-set' do
+  erb :"create-question-set"
+end
+
+post '/create-question-set' do
+  erb :"create-question-set"
+end
+

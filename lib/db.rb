@@ -6,9 +6,9 @@ require 'data_mapper'
 class User
   include DataMapper::Resource
   property :id, Serial
-  property :username, String, :unique => true
-  property :password, String, :length => 8..20
-  property :phone_number, String, :unique => true, :length => 10
+  property :username, String, :unique => true, :required => true
+  property :password, String, :length => 8..20, :required => true
+  property :phone_number, String, :unique => true, :length => 10, :required => true
   property :last_question_id, Integer
   has n, :questionset
   has n, :session
@@ -17,7 +17,7 @@ end
 class Questionset
   include DataMapper::Resource
   property :id, Serial
-  property :name, String
+  property :name, String, :required => true
   belongs_to :user
   has n, :question
 end
@@ -26,8 +26,8 @@ end
 class Question
   include DataMapper::Resource
   property :id, Serial
-  property :text, String
-  property :answer, String
+  property :text, String, :required => true
+  property :answer, String, :required => true
   belongs_to :questionset
 end
 
