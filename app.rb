@@ -48,10 +48,10 @@ get '/respond' do
   result = nil
   if params[:Body].split[0].downcase == "begin"
     result = StartSMS.run(:question_set_name => params[:Body].split[1], :phone_number => params[:From])
-  elsif params[:Body].split[0].downcase == "stop"
-    result = EndSMS.run(:phone_number => params[:From])
-  else
-    result = RunSMS.run(:answer => params[:Body], :phone_number => params[:From])
+  # elsif params[:Body].split[0].downcase == "stop"
+  #   result = EndSMS.run(:phone_number => params[:From])
+  # else
+  #   result = RunSMS.run(:answer => params[:Body], :phone_number => params[:From])
   end
 
   twiml = Twilio::TwiML::Response.new do |r|
@@ -59,9 +59,9 @@ get '/respond' do
       r.Message "#{result.message}"
     elsif result.error?
       if result.error == :user_does_not_exist
-      r.Message "#{params[:From]}"
+      r.Message "Sorry, user does not exist"
       elsif result.error == :question_set_not_found
-        r.Message "aaaa"
+        r.Message "Sorry, there is not question set found under your name"
       elsif result.error == :no_questions_in_set
         r.Message "Sorry, there are no questions in that set"
       elsif result.error == :no_session_in_progress
