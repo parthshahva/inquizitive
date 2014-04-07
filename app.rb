@@ -45,3 +45,20 @@ post '/sign-up' do
   end
   erb :index
 end
+
+get '/create-question' do
+  erb :"create-question"
+end
+
+post '/create-question' do
+  erb :"create-question"
+end
+
+get '/create-question-set' do
+  erb :"create-question-set"
+end
+
+post '/create-question-set' do
+  erb :"create-question-set"
+end
+
