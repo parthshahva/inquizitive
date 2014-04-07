@@ -1,1 +1,42 @@
 <h1>Welcome <%= @user.username %></h1>
+
+<% if @question_sets.count > 0 %>
+  <h2>Question Sets</h2>
+  <ul>
+    <% @question_sets.each do |qset| %>
+      <li><%= qset.name %></li>
+
+        <% questions = @all_questions[qset.id] %>
+        <% if questions.count > 0  %>
+          <ul>
+            <% questions.each do |q| %>
+            <li><%= q.text %></li>
+            <% end %>
+          </ul>
+        <% end %>
+    <% end %>
+  </ul>
+<% else %>
+  <p>no question sets created!</p>
+<% end %>
+
+<h2>create a question set</h2>
+<form action="/create-qset" method="POST">
+  <label for="qset_name">Name: </label>
+  <input type="text" name="qset_name" id="qset_name">
+  <input type="submit" value="create a question set">
+</form>
+
+<h2>create a question</h2>
+<form action="/create-question" method="POST">
+  <label for="question_text">Question: </label>
+  <input type="text" name="question_text" id="question_text">
+
+  <label for="answer">Answer: </label>
+  <input type="text" name="answer" id="answer">
+
+  <label for="question_set">Question Set: </label>
+  <input type="text" name="question_set" id="question_set">
+
+  <input type="submit" value="Create Question">
+</form>

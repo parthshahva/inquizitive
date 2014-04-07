@@ -1,5 +1,4 @@
 require 'sinatra'
-enable :sessions
 require_relative 'lib/inquizitive.rb'
 set :bind, "0.0.0.0"
 configure :development do
@@ -9,6 +8,8 @@ end
 configure :production do
   DataMapper.setup(:default, ENV['DATABASE_URL'])
 end
+
+enable :sessions
 
 get '/' do
   erb :index
@@ -47,53 +48,29 @@ post '/sign-up' do
   erb :index
 end
 
+<<<<<<< HEAD
 get "/home" do
   key = session[:key]
   sess = Session.get(session[:key])
   @user = User.get(sess.user_id)
-  #array of question_set objects
-  @question_sets = Questionset.all(:user_id => @user.id)
-  @all_questions = Hash.new
-
-  @question_sets.map do |qset|
-    questions = Question.all(:questionset_id => qset.id)
-    @all_questions[qset.id] = questions
-  end
-
-  puts @all_questions.inspect
   erb :home
+
 end
-
-post "/create-qset" do
-  key = session[:key].to_i
-  sess = Session.get(key)
-  user = User.get(sess.user_id)
-  question_set = Questionset.new(:name => params[:qset_name], :user_id => user.id)
-
-
-  if question_set.save
-    redirect to("/home")
-  else
-    "this didn't work"
-  end
-
+=======
+get '/create-question' do
+  erb :"create-question"
 end
 
 post '/create-question' do
-  key = session[:key]
-  sess = Session.get(session[:key])
-  user = User.get(sess.user_id)
-  #need use case question set does not exist
-  question_set = Questionset.first(:name => params[:question_set])
-  #need use cases for each parameter not existing
-  question = Question.new(:text => params[:question_text], :answer => params[:answer], :questionset_id => question_set.id)
-
-  if question.save
-    puts question
-    redirect to ("/home")
-  else
-    "this did not work"
-  end
+  erb :"create-question"
 end
 
+get '/create-question-set' do
+  erb :"create-question-set"
+end
 
+post '/create-question-set' do
+  erb :"create-question-set"
+end
+
+>>>>>>> 9a0a7f59ac59f2cc2e6acc2ab8397bf8da953b62
