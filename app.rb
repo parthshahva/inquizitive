@@ -6,6 +6,6 @@ configure do, :group => :production
   DataMapper.setup(:default, ENV['DATABASE_URL'])
 end
 
-get '/'
+get '/' do
 "Test"
 end
