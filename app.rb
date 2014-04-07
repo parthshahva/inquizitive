@@ -2,8 +2,6 @@ require 'sinatra'
 enable :sessions
 require_relative 'lib/inquizitive.rb'
 
-set :bind, "0.0.0.0"
-
 configure :production do
   DataMapper.setup(:default, ENV['DATABASE_URL'])
 end
