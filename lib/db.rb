@@ -13,7 +13,7 @@ class User
   has n, :questionset
   has n, :session
 end
-DataMapper.finalize
+
 class Questionset
   include DataMapper::Resource
   property :id, Serial
@@ -21,7 +21,7 @@ class Questionset
   belongs_to :user
   has n, :question
 end
-DataMapper.finalize
+
 
 class Question
   include DataMapper::Resource
@@ -30,7 +30,7 @@ class Question
   property :answer, String
   belongs_to :questionset
 end
-DataMapper.finalize
+
 
 class Response
   include DataMapper::Resource
@@ -39,7 +39,6 @@ class Response
   belongs_to :question
   belongs_to :user
 end
-DataMapper.finalize
 
 class Session
   include DataMapper::Resource
