@@ -1,4 +1,4 @@
-class StartSMS < UseCase
+class EndSMS < UseCase
   def run(inputs)
      user = User.first(phone_number: inputs[:phone_number][2..-1])
      return failure(:user_does_not_exist) if user.nil?
