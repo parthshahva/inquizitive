@@ -7,7 +7,7 @@ class StartSMS < UseCase
      return failure(:question_set_not_found) if question_set.nil?
 
      questions = Question.all(:questionset_id => question_set.id)
-     return failure(:no_questions_in_set) if questions.nil?
+     return failure(:no_questions_in_set) if questions.size == 0
 
      number = questions.count - 1
      current_question_id = rand(0..number)
