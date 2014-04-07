@@ -14,7 +14,7 @@ post '/sign-in' do
   result = SignIn.run({:username => params[:username], :password => params[:password]})
   if result.success?
     @message = "It worked #{result.user.username}"
-    sessions[:session_id] = result.session_id
+    session[:session_id] = result.session_id
   else
     @message = "#{result.error}"
   end
