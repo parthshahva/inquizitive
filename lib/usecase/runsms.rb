@@ -8,13 +8,13 @@ class RunSMS < UseCase
      question_set = Questionset.get(question.questionset_id)
      return failure(:question_set_not_found) if question_set.nil?
 
-     answer_checker = false
-     answer_checker = true if question.answer.downcase == inputs[:answer].downcase
+     # answer_checker = false
+     # answer_checker = true if question.answer.downcase == inputs[:answer].downcase
      response = "incorrect"
-     response = "correct" if answer_checker == true
+     # response = "correct" if answer_checker == true
 
      questions = Question.all(:question_id => question_set.id)
-     return failure(:no_questions_in_set) if questions == []
+     # return failure(:no_questions_in_set) if questions == []
      # Response.create(correct: answer_checker, question_id: question.id, user_id: user.id)
 
      number = questions.count
