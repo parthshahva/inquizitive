@@ -48,7 +48,7 @@ get '/respond' do
   result = nil
   if params[:Body].split[0].downcase == "begin"
     result = StartSMS.run(:question_set_name => params[:Body].split[1], :phone_number => params[:From])
-  elsif params[:Body].split[0].downcase == "stop"
+  elsif params[:Body].split[0].downcase == "finish"
     result = EndSMS.run(:phone_number => params[:From])
   else
     result = RunSMS.run(:answer => params[:Body], :phone_number => params[:From])
