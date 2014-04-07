@@ -10,4 +10,5 @@ gem 'twilio-ruby'
 gem 'pg',  :group => :production
 gem 'dm-postgres-adapter', :group => :production
 gem 'dm-sqlite-adapter', :group => :development
+gem 'dm-constraints'
 
