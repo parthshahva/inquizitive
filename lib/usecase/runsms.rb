@@ -15,7 +15,7 @@ class RunSMS < UseCase
 
      questions = Question.all(:question_id => question_set.id)
      return failure(:no_questions_in_set) if questions == []
-     response = Response.create(correct: answer_checker, question_id: question.id, user_id: user.id)
+     # Response.create(correct: answer_checker, question_id: question.id, user_id: user.id)
 
      number = questions.count
      current_question_id = rand(1..number)
