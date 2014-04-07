@@ -6,7 +6,7 @@ class StartSMS < UseCase
      question_set = Questionset.first(:name => inputs[:question_set_name], :user_id => user.id)
      return failure(:question_set_not_found) if question_set.nil?
 
-     questions = Question.all(:question_id => question_set.id)
+     questions = Question.all(:question_set_id => question_set.id)
      return failure(:no_questions_in_set) if questions.nil?
 
      number = questions.count - 1
