@@ -47,8 +47,8 @@ get '/respond' do
   auth_token = '5de6b5fb8c98a947042ca99d0050c5c8'
   @client = Twilio::REST::Client.new account_sid, auth_token
   result = nil
-  if params[:Body].split[0].downcase == "start"
-    result = StartSMS.run(:question_set_name => params[:Body].split[1], :phone_number => params[:From])
+  # if params[:Body].split[0].downcase == "start"
+  #   result = StartSMS.run(:question_set_name => params[:Body].split[1], :phone_number => params[:From])
   # elsif params[:Body].split[0].downcase == "end"
   #   result = EndSMS.run(:phone_number => params[:From])
   # else
@@ -56,11 +56,11 @@ get '/respond' do
   end
 
   twiml = Twilio::TwiML::Response.new do |r|
-    if result.success?
-      r.Message "#{result.message}"
-    elsif result.error?
-      r.Message "#{result.error}"
-    end
+    # if result.success?
+      r.Message "hello"
+    # elsif result.error?
+      # r.Message "hello"
+    # end
   end
   twiml.text
 end
