@@ -37,7 +37,7 @@ post '/sign-in' do
 end
 
 get '/register' do
-  erb :register
+  erb :register, :layout => :"sign-in-up-layout"
 end
 
 post '/register' do

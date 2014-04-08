@@ -1,4 +1,4 @@
-<h1>Sign up</h1>
+<!-- <h1>Sign up</h1>
 
 <% if @user != nil %>
   <% @user.errors.each do |e| %>
@@ -6,8 +6,8 @@
   <% end %>
   <p><%= @message %></p>
 <% end %>
-
-<form action="/register" method="POST">
+ -->
+<!-- <form action="/register" method="POST">
   <label for="username">Username: </label>
   <input type="text" name="username" id="username">
 
@@ -20,7 +20,52 @@
   <label for="phone_number">Phone Number: </label>
   <input type="text" name="phone_number" id="phone_number">
 
-
-
   <input type="submit" value="sign up">
 </form>
+ -->
+
+
+<div class="row">
+  <div class="logo">Sign up!</div>
+</div>
+
+<div class="row">
+  <div class="message">
+    <% if @user != nil %>
+      <% @user.errors.each do |e| %>
+      <p><%= e.first %></p>
+      <% end %>
+      <p><%= @message %></p>
+    <% end %>
+  </div>
+</div>
+
+<div class="row">
+    <form action="/register" method="POST" class="form-horizontal">
+      <div class="control-group">
+        <div class="controls">
+          <input class="userinfo" type="text" id="username" name="username" placeholder="Username">
+        </div>
+      </div>
+      <div class="control-group">
+        <div class="controls">
+          <input class="userinfo" type="password" id="password" name="password" placeholder="Password">
+        </div>
+      </div>
+      <div class="control-group">
+        <div class="controls">
+          <input class="userinfo" type="password" id="confirm_password" name="confirm_password" placeholder="Confirm password">
+        </div>
+      </div>
+      <div class="control-group">
+        <div class="controls">
+          <input class="userinfo" type="text" id="password" name="phone_number" placeholder="Phone number">
+        </div>
+      </div>
+      <div class="control-group">
+        <div class="controls">
+          <input type="submit" class="signinbutton btn btn-default" value="Sign in">
+        </div>
+      </div>
+    </form>
+</div>

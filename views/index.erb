@@ -1,37 +1,35 @@
-<div class="vcenter">
-  <div class="row">
-    <div class="span8 offset4">
-      <div class="logo">Inquizitive.</div>
-    </div>
+<div class="row">
+  <div class="span8 offset4">
+    <div class="logo">Inquizitive.</div>
   </div>
+</div>
 
-  <div class="row">
-    <div class="span8 offset4">
-      <div class="message"><%= @message %></div>
-    </div>
+<div class="row">
+  <div class="span8 offset4">
+    <div class="message"><%= @message %></div>
   </div>
+</div>
 
-  <div class="row">
-    <div class="span8 offset4">
-      <form action="/sign-in" method="POST" class="form-horizontal">
-        <div class="control-group">
-          <div class="controls">
-            <input class="userinfo" type="text" id="username" name="username" placeholder="Username">
-          </div>
+<div class="row">
+  <div class="span8 offset4">
+    <form action="/sign-in" method="POST" class="form-horizontal">
+      <div class="control-group">
+        <div class="controls">
+          <input class="userinfo" type="text" id="username" name="username" placeholder="Username">
         </div>
-        <div class="control-group">
-          <div class="controls">
-            <input class="userinfo" type="password" id="password" name="password" placeholder="Password">
-          </div>
+      </div>
+      <div class="control-group">
+        <div class="controls">
+          <input class="userinfo" type="password" id="password" name="password" placeholder="Password">
         </div>
-        <div class="control-group">
-          <div class="controls">
-            <input type="submit" class="signinbutton btn btn-default" value="Sign in">
-            <a class="signinbutton btn btn-default" href="/sign-up">Sign up</a>
-          </div>
+      </div>
+      <div class="control-group">
+        <div class="controls">
+          <input type="submit" class="signinbutton btn btn-default" value="Sign in">
+          <a class="signinbutton btn btn-default" href="/sign-up">Sign up</a>
         </div>
-      </form>
+      </div>
+    </form>
 
-    </div>
   </div>
 </div>
