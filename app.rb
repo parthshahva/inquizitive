@@ -50,7 +50,7 @@ post '/sign-up' do
     erb :"sign-up", :layout => :"sign-in-up-layout"
   end
   erb :"sign-up", :layout => :"sign-in-up-layout"
-  end
+end
 
 
 get '/respond' do
