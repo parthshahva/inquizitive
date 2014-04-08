@@ -2,6 +2,7 @@ require 'sinatra'
 require 'sinatra/contrib'
 require 'twilio-ruby'
 require 'dotenv'
+require 'rotp'
 Dotenv.load
 
 enable :sessions
@@ -23,35 +24,58 @@ post '/sign-in' do
   result = SignIn.run({:username => params[:username], :password => params[:password]})
   if result.success?
     @message = "It worked #{result.user.username}"
-
     session[:key] = result.session_id
     redirect to ("/home")
+  elsif result.error == :user_not_verified
+    @message = "user and phone number not verified!"
+    redirect to ('/register')
   elsif (result.error)
     # @message = "#{result.error}"
     @message = "incorrect username or password"
-  else
-    @message = "username and password created!"
   end
     erb :index, :layout => :"sign-in-up-layout"
+end
+
+get '/register' do
+  erb :register
+end
+
+post '/register' do
+  @twilio_number = '5122706595'
+  # ENV['twilio_number']
+  @client = Twilio::REST::Client.new ENV['account_sid'], ENV['auth_token']
+  @phone_number = params[:phone_number]
+  @username = params[:username]
+  @password = params[:password]
+  user = User.first_or_create(:username => params[:username], :password => params[:password], :phone_number => params[:phone_number].delete("^0-9"), correct_counter: 0, longest_correct_streak: 0)
+  totp = ROTP::TOTP.new("drawtheowl")
+  code = totp.now
+  user.code = code
+  user.save
+  @client.account.sms.messages.create(
+  :from => @twilio_number,
+  :to => @phone_number,
+  :body => "Your verification code is #{code}")
+  erb :register, :layout => :"sign-in-up-layout"
+end
+
+post '/sign-up' do
+ user = User.first(:phone_number => params[:phone_number])
+ @code = params[:code]
+ if user.code == @code
+    user.verified = true
+    user.save
+    @message = "Phone number successfully verified. Please sign in."
+    erb :index, :layout => :"sign-in-up-layout"
+ else
+  @message = "Phone number not verified. Please sign up again."
+  erb :"sign-up", :layout => :"sign-in-up-layout"
+  end
 end
 
 get '/sign-up' do
   erb :"sign-up", :layout => :"sign-in-up-layout"
 end
-
-post '/sign-up' do
-  @user = User.new(:username => params[:username], :password => params[:password], :phone_number => params[:phone_number].delete("^0-9"), correct_counter: 0, longest_correct_streak: 0)
-  if @user.save
-    redirect to("/")
-  else
-    if params[:password] != params[:confirm_password]
-      @message = "password does not match confirm password"
-    end
-    erb :"sign-up", :layout => :"sign-in-up-layout"
-  end
-  erb :"sign-up", :layout => :"sign-in-up-layout"
-end
-
 
 get '/respond' do
   account_sid = ENV['ACCOUNT_SID']

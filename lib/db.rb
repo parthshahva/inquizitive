@@ -12,6 +12,8 @@ class User
   property :last_question_id, Integer
   property :correct_counter, Integer
   property :longest_correct_streak, Integer
+  property :verified, Boolean, :default => false
+  property :code, String, :length => 10
   has n, :questionset
   has n, :session
 end
