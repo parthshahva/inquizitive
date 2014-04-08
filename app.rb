@@ -67,6 +67,8 @@ post '/sign-up' do
  if user.code == @code
     user.verified = true
     user.save
+    @message = "Phone number successfully verified. Please sign in."
+    erb :index, :layout => :"sign-in-up-layout"
  else
   @message = "Phone number not verified. Please sign up again."
   erb :"sign-up", :layout => :"sign-in-up-layout"
