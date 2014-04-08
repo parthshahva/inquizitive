@@ -16,7 +16,7 @@ class RunSMS < UseCase
 
     questions = Question.all(:questionset_id => question_set.id)
     return failure(:no_questions_in_set) if questions == []
-    Response.create(correct: answer_checker, question_id: question.id, user_id: user.id)
+    # Response.create(:correct => answer_checker, :question_id => question.id, :user_id => user.id)
 
     current_question = 0
     if rand(0..1) == 1
@@ -48,13 +48,16 @@ class RunSMS < UseCase
         end
       end
 
-      percentages.sort_by! { |hash| hash[:percent_correct]}
+  end
+    percentages.sort_by! { |hash| hash[:percent_correct]}
+   index = (rand(questions.count)/2)
 
-      index = (rand(questions.count)/2)
+      index += 1 if index == 0
 
-      current_question = Question.get(percentages[index][:question_id])
-    end
-    user.last_question_id = current_question_id
+      id = percentages.keys[index]
+
+      current_question = Question.first(:id => percentages[id][:question_id])
+    user.last_question_id = current_question.id
     user.save
     message = current_question.text
     if response == "correct"
