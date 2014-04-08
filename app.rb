@@ -36,6 +36,11 @@ post '/sign-in' do
     erb :index, :layout => :"sign-in-up-layout"
 end
 
+get '/sign-out' do
+  SignOut.run(session_id: session[:key])
+  redirect to ("/home")
+end
+
 get '/register' do
   erb :register, :layout => :"sign-in-up-layout"
 end
