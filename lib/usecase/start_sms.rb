@@ -11,7 +11,7 @@ class StartSMS < UseCase
 
      number = questions.size - 1
      current_question_id = rand(0..number)
-     current_question = Question.get(question[current_question_id])
+     current_question = Question.get(questions[current_question_id])
      user.last_question_id = current_question.id
      user.save
      message = current_question.text
