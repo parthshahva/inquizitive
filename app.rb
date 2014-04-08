@@ -15,7 +15,7 @@ configure :production do
 end
 
 get '/' do
-  erb :index
+  erb :index, :layout => :"sign-in-up-layout"
 end
 
 post '/sign-in' do
@@ -31,11 +31,11 @@ post '/sign-in' do
   else
     @message = "username and password created!"
   end
-    erb :index
+    erb :index, :layout => :"sign-in-up-layout"
 end
 
 get '/sign-up' do
-  erb :"sign-up"
+  erb :"sign-up", :layout => :"sign-in-up-layout"
 end
 
 post '/sign-up' do
@@ -46,9 +46,9 @@ post '/sign-up' do
     if params[:password] != params[:confirm_password]
       @message = "password does not match confirm password"
     end
-    erb :"sign-up"
+    erb :"sign-up", :layout => :"sign-in-up-layout"
   end
-  erb :"sign-up"
+  erb :"sign-up", :layout => :"sign-in-up-layout"
   end
 
 
