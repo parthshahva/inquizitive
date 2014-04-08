@@ -15,3 +15,4 @@ gem 'dm-sqlite-adapter', :group => :development
 gem 'rspec'
 gem 'rack-test'
 gem 'dotenv'
+gem 'sinatra-contrib'
