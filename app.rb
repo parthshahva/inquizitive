@@ -86,13 +86,6 @@ get '/respond' do
   twiml.text
 end
 
-
-
-
-
-
-
-
 get "/home" do
   key = session[:key]
   sess = Session.get(session[:key])
