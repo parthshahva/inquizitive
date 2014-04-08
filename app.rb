@@ -25,6 +25,7 @@ post '/sign-in' do
   if result.success?
     @message = "It worked #{result.user.username}"
     session[:key] = result.session_id
+    puts session[:key]
     redirect to ("/home")
   elsif result.error == :user_not_verified
     @message = "user and phone number not verified!"
@@ -37,8 +38,9 @@ post '/sign-in' do
 end
 
 get '/sign-out' do
-  SignOut.run(session_id: session[:key])
-  redirect to ("/home")
+  puts session[:key]
+  result = SignOut.run(session_id: session[:key])
+  redirect to("/")
 end
 
 get '/register' do
