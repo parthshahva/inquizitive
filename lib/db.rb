@@ -12,6 +12,8 @@ class User
   property :last_question_id, Integer
   property :correct_counter, Integer
   property :longest_correct_streak, Integer
+  property :verified, Boolean, :default => false
+  property :code, String, :length => 10
   has n, :questionset
   has n, :session
 end
@@ -49,14 +51,4 @@ class Session
 end
 DataMapper.finalize
 
-class VerifiedUser
-  include DataMapper::Resource
-
-  property :id, Serial
-  property :code, String, :length => 10
-  property :phone_number, String, :length => 30
-  property :verified, Boolean, :default => false
-
-end
-DataMapper.finalize
 

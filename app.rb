@@ -15,16 +15,6 @@ configure :production do
   DataMapper.setup(:default, ENV['DATABASE_URL'])
 end
 
-before do
-  @twilio_number = ENV['twilio_number']
-  @client = Twilio::REST::Client.new ENV['account_sid'], ENV['auth_token']
-
-  if params[:error].nil?
-    @error = false
-  else
-    @error = true
-  end
-end
 
 get '/' do
   erb :index, :layout => :"sign-in-up-layout"
@@ -36,6 +26,9 @@ post '/sign-in' do
     @message = "It worked #{result.user.username}"
     session[:key] = result.session_id
     redirect to ("/home")
+  elsif result.error == :user_not_verified
+    @message = "user and phone number not verified!"
+    redirect to ('/register')
   elsif (result.error)
     # @message = "#{result.error}"
     @message = "incorrect username or password"
@@ -43,40 +36,39 @@ post '/sign-in' do
     erb :index, :layout => :"sign-in-up-layout"
 end
 
-route :get, :post, '/register' do
+get '/register' do
+  erb :register
+end
+
+post '/register' do
+  @twilio_number = ENV['twilio_number']
+  @client = Twilio::REST::Client.new ENV['account_sid'], ENV['auth_token']
   @phone_number = params[:phone_number]
   @username = params[:username]
   @password = params[:password]
-  if @phone_number.empty?
-    redirect to("/?error=1")
-  end
-  begin
-    if @error == false
-      user = VerifiedUser.first_or_create(:phone_number => @phone_number)
-
-      if user.verified == true
-        @user = User.new(:username => params[:username], :password => params[:password], :phone_number => params[:phone_number].delete("^0-9"), correct_counter: 0, longest_correct_streak: 0)
-        @user.save
-        @message = "Successfully verified! Please sign in."
-        erb :index, :layout => :"sign-in-up-layout"
-      end
-      totp = ROTP::TOTP.new("drawtheowl")
-      code = totp.now
-
-      user.code = code
-      user.save
-
-      @client.account.sms.messages.create(
-        :from => @twilio_number,
-        :to => @phone_number,
-        :body => "Your verification code is #{code}")
-    end
-    erb :register, :layout => :"sign-in-up-layout"
-  rescue
-    redirect to("/?error=2")
-  end
+  @user = User.first_or_create(:username => params[:username], :password => params[:password], :phone_number => params[:phone_number].delete("^0-9"), correct_counter: 0, longest_correct_streak: 0)
+  totp = ROTP::TOTP.new("drawtheowl")
+  code = totp.now
+  user.code = code
+  user.save
+  @client.account.sms.messages.create(
+  :from => @twilio_number,
+  :to => @phone_number,
+  :body => "Your verification code is #{code}")
+  erb :register, :layout => :"sign-in-up-layout"
 end
 
+post '/sign-up' do
+ user = User.first(:phone_number => params[:phone_number])
+ @code = params[:code]
+ if user.code == @code
+    user.verified = true
+    user.save
+ else
+  @message = "Phone number not verified. Please sign up again."
+  erb :"sign-up", :layout => :"sign-in-up-layout"
+  end
+end
 
 get '/sign-up' do
   erb :"sign-up", :layout => :"sign-in-up-layout"
