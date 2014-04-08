@@ -10,6 +10,7 @@ class User
   property :password, String, :length => 8..20, :required => true
   property :phone_number, String, :unique => true, :length => 10, :required => true
   property :last_question_id, Integer
+  property :
   has n, :questionset
   has n, :session
 end
