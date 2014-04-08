@@ -8,7 +8,7 @@ class SignUp < UseCase
     return failure(:not_a_valid_number) if phone_number.length < 10
     return failure(:phone_number_already_in_use) if User.first(inputs[:phone_number]).phone_number == inputs[:phone_number]
 
-    user = User.create(username: inputs[:username], password: inputs[:password], phone_number: "+1#{inputs[:phone_number]}")
+    user = User.create(username: inputs[:username], password: inputs[:password], phone_number: "+1#{inputs[:phone_number]}", correct_counter: 0, longest_correct_streak: 0)
     success :user => user
   end
 end
