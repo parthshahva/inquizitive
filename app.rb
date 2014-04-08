@@ -1,4 +1,5 @@
 require 'sinatra'
+require 'sinatra/contrib'
 require 'twilio-ruby'
 require 'dotenv'
 Dotenv.load
