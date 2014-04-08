@@ -4,9 +4,9 @@
 </div>
 <div class="streaks">
 Current streak:
-<%= user.correct_counter %>
+<%= @user.correct_counter %>
 Longest streak:
-<%= user.longest_correct_streak %>
+<%= @user.longest_correct_streak %>
 </div>
 <% if @question_sets.count > 0 %>
   <h2>Question Sets</h2>
