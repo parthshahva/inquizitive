@@ -58,7 +58,7 @@ class RunSMS < UseCase
       number = questions.count - 1
       current_question_id = rand(0..number)
       current_question = questions[current_question_id]
-    end
+    end if questions.size == 1
     user.last_question_id = current_question.id
     user.save
     message = current_question.text
