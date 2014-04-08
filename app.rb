@@ -56,7 +56,6 @@ post '/register' do
   user.password = params[:password]
   user.phone_number = params[:phone_number]
   if user.save
-    user = User.create(:username => params[:username], :password => params[:password], :phone_number => params[:phone_number].delete("^0-9"), correct_counter: 0, longest_correct_streak: 0)
     totp = ROTP::TOTP.new("drawtheowl")
     code = totp.now
     user.code = code
@@ -78,7 +77,7 @@ post '/verification' do
     user.verified = true
     user.save
     @message = "Phone number successfully verified. Please sign in."
-    erb :index, :layout => :"sign-in-up-layout"
+    redirect to('/')
  else
   @message = "Phone number not verified. Please sign up again."
   erb :"sign-up", :layout => :"sign-in-up-layout"
