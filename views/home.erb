@@ -13,6 +13,8 @@
 </div>
 
 <div class="row">
+  <div class="col-md-2"></div>
+  <div class="col-md-10">
   <% if @question_sets.count > 0 %>
     <h3>Question Sets</h3>
     <ul>
@@ -32,9 +34,13 @@
   <% else %>
     <p class="lead">no question sets created!</p>
   <% end %>
+  </div>
+  <div class="col-md-2"></div>
 </div>
 
 <div class="row">
+  <div class="col-md-2"></div>
+  <div class="col-md-10">
   <h3>Create a question set:</h3>
   <form action="/create-qset" class="form-inline" method="POST" role="form">
     <div class="form-group" id="qset-form">
@@ -46,8 +52,12 @@
     </div>
   </form>
 </div>
+<div class="col-md-2"></div>
+</div>
 
 <div class="row">
+  <div class="col-md-2"></div>
+  <div class="col-md-10">
   <h3>Create a question:</h3>
   <form action="/create-question" class="form-horizontal" method="POST" role="form">
     <div class="form-group">
@@ -79,4 +89,6 @@
     </div>
     <input class="btn btn-primary btn-lg btn-block block-submit" type="submit" value="Create Question">
   </form>
+</div>
+<div class="col-md-2"></div>
 </div>
