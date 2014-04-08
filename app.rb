@@ -14,6 +14,7 @@ end
 
 configure :production do
   DataMapper.setup(:default, ENV['DATABASE_URL'])
+  DataMapper.auto_migrate!
 end
 
 
@@ -42,7 +43,8 @@ get '/register' do
 end
 
 post '/register' do
-  @twilio_number = ENV['twilio_number']
+  @twilio_number = '5122706595'
+  # ENV['twilio_number']
   @client = Twilio::REST::Client.new ENV['account_sid'], ENV['auth_token']
   @phone_number = params[:phone_number]
   @username = params[:username]
