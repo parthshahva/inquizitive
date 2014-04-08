@@ -1,5 +1,8 @@
 require 'sinatra'
 require 'twilio-ruby'
+require 'dotenv'
+Dotenv.load
+
 enable :sessions
 require_relative 'lib/inquizitive.rb'
 
@@ -50,8 +53,8 @@ end
 
 
 get '/respond' do
-  account_sid = 'AC79afc966ef3d304699eadbd31e7b066d'
-  auth_token = '5de6b5fb8c98a947042ca99d0050c5c8'
+  account_sid = ENV['ACCOUNT_SID']
+  auth_token = ENV['AUTH_TOKEN']
   result = nil
   if params[:Body].split[0].downcase == "begin"
     result = StartSMS.run(:question_set_name => params[:Body].split[1], :phone_number => params[:From])
