@@ -1,7 +1,8 @@
 require 'sinatra'
+require 'twilio-ruby'
 enable :sessions
 require_relative 'lib/inquizitive.rb'
-set :bind, "0.0.0.0"
+
 configure :development do
   DataMapper.setup(:default, "sqlite://#{Dir.pwd}/inquizitive.db")
 end
@@ -46,6 +47,48 @@ post '/sign-up' do
   end
   erb :index
 end
+
+
+get '/respond' do
+  account_sid = 'AC79afc966ef3d304699eadbd31e7b066d'
+  auth_token = '5de6b5fb8c98a947042ca99d0050c5c8'
+  result = nil
+  if params[:Body].split[0].downcase == "begin"
+    result = StartSMS.run(:question_set_name => params[:Body].split[1], :phone_number => params[:From])
+  elsif params[:Body].split[0].downcase == "finish"
+    result = EndSMS.run(:phone_number => params[:From])
+  else
+    result = RunSMS.run(:answer => params[:Body], :phone_number => params[:From])
+  end
+
+  twiml = Twilio::TwiML::Response.new do |r|
+    if result.success?
+      r.Message "#{result.message}"
+    elsif result.error?
+      if result.error == :user_does_not_exist
+      r.Message "Sorry, user does not exist"
+      elsif result.error == :question_set_not_found
+        r.Message "Sorry, there is no question set found under your name"
+      elsif result.error == :no_questions_in_set
+        r.Message "Sorry, there are no questions in that set"
+      elsif result.error == :no_session_in_progress
+        r.Message "Sorry, there is no Inquizitive session in progress"
+      elsif result.error == :session_not_active
+        r.Message "Sorry, there is no active session. Text 'Start' followed by the name of the question set"
+      end
+    else
+      r.Message "IDK bro"
+    end
+  end
+  twiml.text
+end
+
+
+
+
+
+
+
 
 get "/home" do
   key = session[:key]
