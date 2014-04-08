@@ -4,6 +4,7 @@
 </div>
 
 <div class="row streaks">
+  <div class="col-md-10">
   <br/>
   Current streak:
   <%= @user.correct_counter %>
@@ -11,9 +12,9 @@
   Longest streak:
   <%= @user.longest_correct_streak %>
 </div>
+</div>
 
 <div class="row">
-  <div class="col-md-2"></div>
   <div class="col-md-10">
   <% if @question_sets.count > 0 %>
     <h3>Question Sets</h3>
@@ -39,7 +40,6 @@
 </div>
 
 <div class="row">
-  <div class="col-md-2"></div>
   <div class="col-md-10">
   <h3>Create a question set:</h3>
   <form action="/create-qset" class="form-inline" method="POST" role="form">
@@ -56,7 +56,6 @@
 </div>
 
 <div class="row">
-  <div class="col-md-2"></div>
   <div class="col-md-10">
   <h3>Create a question:</h3>
   <form action="/create-question" class="form-horizontal" method="POST" role="form">
