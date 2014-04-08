@@ -43,5 +43,8 @@ body {
   width: 115px;
   -webkit-font-smoothing: antialiased;
   font-weight: bold;
+}
 
+.message {
+  font-size: 16px;
 }
