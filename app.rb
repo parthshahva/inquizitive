@@ -39,7 +39,7 @@ get '/sign-up' do
 end
 
 post '/sign-up' do
-  @user = User.new(:username => params[:username], :password => params[:password], :phone_number => params[:phone_number].delete("^0-9"))
+  @user = User.new(:username => params[:username], :password => params[:password], :phone_number => params[:phone_number].delete("^0-9"), correct_counter: 0, longest_correct_streak: 0)
   if @user.save
     redirect to("/")
   else
