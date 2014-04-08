@@ -49,7 +49,7 @@ post '/register' do
   @phone_number = params[:phone_number]
   @username = params[:username]
   @password = params[:password]
-  if user.get(:username => params[:username]) != nil || user.get(:phone_number => params[:phone_number]) != nil
+  if User.get(:username => params[:username]) != nil || User.get(:phone_number => params[:phone_number]) != nil
     erb :"sign-up", :"sign-in-up-layout"
   else
   user = User.create(:username => params[:username], :password => params[:password], :phone_number => params[:phone_number].delete("^0-9"), correct_counter: 0, longest_correct_streak: 0)
