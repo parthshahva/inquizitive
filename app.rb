@@ -15,6 +15,17 @@ configure :production do
   DataMapper.setup(:default, ENV['DATABASE_URL'])
 end
 
+before do
+  @twilio_number = ENV['twilio_number']
+  @client = Twilio::REST::Client.new ENV['account_sid'], ENV['auth_token']
+
+  if params[:error].nil?
+    @error = false
+  else
+    @error = true
+  end
+end
+
 get '/' do
   erb :index, :layout => :"sign-in-up-layout"
 end
@@ -23,49 +34,53 @@ post '/sign-in' do
   result = SignIn.run({:username => params[:username], :password => params[:password]})
   if result.success?
     @message = "It worked #{result.user.username}"
-
     session[:key] = result.session_id
     redirect to ("/home")
   elsif (result.error)
     # @message = "#{result.error}"
     @message = "incorrect username or password"
-  else
-    @message = "username and password created!"
   end
     erb :index, :layout => :"sign-in-up-layout"
 end
 
+route :get, :post, '/register' do
+  @phone_number = params[:phone_number]
+  @username = params[:username]
+  @password = params[:password]
+  if @phone_number.empty?
+    redirect to("/?error=1")
+  end
+  begin
+    if @error == false
+      user = VerifiedUser.first_or_create(:phone_number => @phone_number)
+
+      if user.verified == true
+        @user = User.new(:username => params[:username], :password => params[:password], :phone_number => params[:phone_number].delete("^0-9"), correct_counter: 0, longest_correct_streak: 0)
+        @user.save
+        @message = "Successfully verified! Please sign in."
+        erb :index, :layout => :"sign-in-up-layout"
+      end
+      totp = ROTP::TOTP.new("drawtheowl")
+      code = totp.now
+
+      user.code = code
+      user.save
+
+      @client.account.sms.messages.create(
+        :from => @twilio_number,
+        :to => @phone_number,
+        :body => "Your verification code is #{code}")
+    end
+    erb :register, :layout => :"sign-in-up-layout"
+  rescue
+    redirect to("/?error=2")
+  end
+end
+
+
 get '/sign-up' do
   erb :"sign-up", :layout => :"sign-in-up-layout"
 end
-
-post '/verification' do
-  erb :register, :layout => :"sign-in-up-layout"
-end
-
-post '/verified' do
-  @user = User.new(:username => params[:username], :password => params[:password], :phone_number => params[:phone_number].delete("^0-9"), correct_counter: 0, longest_correct_streak: 0)
-  if @user.save
-    redirect to("/")
-  else
-    if params[:password] != params[:confirm_password]
-      @message = "password does not match confirm password"
-    end
-      erb :"sign-up", :layout => :"sign-in-up-layout"
-  end
-end
-
-post '/sign-up' do
-  if @user.save
-    redirect to("/")
-  else
-    if params[:password] != params[:confirm_password]
-      @message = "password does not match confirm password"
-    end
-    erb :"sign-up", :layout => :"sign-in-up-layout"
-  end
-  erb :"sign-up", :layout => :"sign-in-up-layout"
-  end
 
 
 get '/respond' do

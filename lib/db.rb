@@ -49,3 +49,14 @@ class Session
 end
 DataMapper.finalize
 
+class VerifiedUser
+  include DataMapper::Resource
+
+  property :id, Serial
+  property :code, String, :length => 10
+  property :phone_number, String, :length => 30
+  property :verified, Boolean, :default => false
+
+end
+DataMapper.finalize
+
