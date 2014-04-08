@@ -1,19 +1,24 @@
 <div class="row">
-  <div class="logo">Sign up!</div>
-</div>
-
-<div class="row">
-  <div class="message">
-    <% if @user != nil %>
-      <% @user.errors.each do |e| %>
-      <p><%= e.first %></p>
-      <% end %>
-      <p><%= @message %></p>
-    <% end %>
+  <div class="span4">
+    <div class="logo">Sign up!</div>
   </div>
 </div>
 
 <div class="row">
+  <div class="span4">
+    <div class="message">
+      <% if @user != nil %>
+        <% @user.errors.each do |e| %>
+        <p><%= e.first %></p>
+        <% end %>
+        <p><%= @message %></p>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span4">
     <form action="/register" method="POST" class="form-horizontal">
       <div class="control-group">
         <div class="controls">
@@ -37,8 +42,9 @@
       </div>
       <div class="control-group">
         <div class="controls">
-          <input type="submit" class="signinbutton btn btn-default" value="Sign in">
+          <input type="submit" class="signinbutton btn btn-default" value="Sign up">
         </div>
       </div>
     </form>
+  </div>
 </div>

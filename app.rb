@@ -14,6 +14,7 @@ end
 
 configure :production do
   DataMapper.setup(:default, ENV['DATABASE_URL'])
+  DataMapper.auto_migrate!
 end
 
 get '/' do
@@ -23,15 +24,12 @@ end
 post '/sign-in' do
   result = SignIn.run({:username => params[:username], :password => params[:password]})
   if result.success?
-    @message = "It worked #{result.user.username}"
     session[:key] = result.session_id
     puts session[:key]
     redirect to ("/home")
   elsif result.error == :user_not_verified
-    @message = "user and phone number not verified!"
     redirect to ('/register')
-  elsif (result.error)
-    # @message = "#{result.error}"
+  elsif result.error?
     @message = "incorrect username or password"
   end
     erb :index, :layout => :"sign-in-up-layout"
@@ -49,12 +47,14 @@ end
 
 post '/register' do
   @twilio_number = '5122706595'
-  # ENV['twilio_number']
   @client = Twilio::REST::Client.new ENV['account_sid'], ENV['auth_token']
   @phone_number = params[:phone_number]
   @username = params[:username]
   @password = params[:password]
-  user = User.first_or_create(:username => params[:username], :password => params[:password], :phone_number => params[:phone_number].delete("^0-9"), correct_counter: 0, longest_correct_streak: 0)
+  if user.get(:username => params[:username]) != nil || user.get(:phone_number => params[:phone_number]) != nil
+    erb :"sign-up", :"sign-in-up-layout"
+  else
+  user = User.create(:username => params[:username], :password => params[:password], :phone_number => params[:phone_number].delete("^0-9"), correct_counter: 0, longest_correct_streak: 0)
   totp = ROTP::TOTP.new("drawtheowl")
   code = totp.now
   user.code = code
@@ -64,9 +64,10 @@ post '/register' do
   :to => @phone_number,
   :body => "Your verification code is #{code}")
   erb :register, :layout => :"sign-in-up-layout"
+  end
 end
 
-post '/sign-up' do
+post '/verification' do
  user = User.first(:phone_number => params[:phone_number])
  @code = params[:code]
  if user.code == @code
