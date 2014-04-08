@@ -1,13 +1,27 @@
-<div class="logo">Inquizitive.</div>
+<div class="vcenter">
+  <div class="row">
+    <div class="span8 offset4">
+      <div class="logo">Inquizitive.</div>
+    </div>
+  </div>
 
-<%= @message %>
-<h1>Sign in</h1>
-<form action="/sign-in" method="POST">
-  <label for="username">Username: </label>
-  <input type="text" name="username" id="username">
+  <div class="row">
+    <div class="span8 offset4">
+      <div class="message"><%= @message %></div>
+    </div>
+  </div>
 
-  <label for="password">Password: </label>
-  <input type="password" name="password" id="password">
-  <input type="submit" value="sign in">
-</form>
-<a href="/sign-up">Sign up!</a>
+  <div class="row">
+    <div class="span8 offset4">
+      <form action="/sign-in" method="POST">
+        <label for="username">Username: </label>
+        <input type="text" name="username" id="username"><br/>
+
+        <label for="password">Password: </label>
+        <input type="password" name="password" id="password">
+        <input class="btn btn-default" type="submit" value="sign in">
+      </form>
+      <a href="/sign-up">Sign up!</a>
+    </div>
+  </div>
+</div>
