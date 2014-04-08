@@ -5,10 +5,10 @@ class ListSMS < UseCase
      question_sets = Questionsets.all(:user_id => user.id)
      return failure(:question_sets_not_found) if question_sets == []
 
-     messages = question_sets.each do |x|
+     message = question_sets.each do |x|
         print x.name + ". "
      end
 
-     success :message => messages
+     success :message => message
   end
 end
