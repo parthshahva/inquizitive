@@ -5,7 +5,8 @@ class RunSMS < UseCase
     return failure(:session_not_active) if user.last_question_id.nil?
 
     question = Question.first(:id => user.last_question_id)
-    question_set = Questionset.first(:id => question.questionset_id)
+    question_set_id = question.questionset_id
+    question_set = Questionset.first(:id => question_set_id)
 
 
     answer_checker = false

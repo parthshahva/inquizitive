@@ -27,13 +27,20 @@ describe RunSMS do
   @user.last_question_id = @question_one.id
   @user.save
 
-  result = RunSMS.run(:answer => "nigga", :phone_number => "+1#{@user.phone_number}")
+  result = RunSMS.run(:answer => "2", :phone_number => "+1#{@user.phone_number}")
   expect(result.message).to be_a(String)
   @user.last_question_id = @question_nine.id
   @user.save
   result2 = RunSMS.run(:answer => "-3", :phone_number => "+1#{@user.phone_number}")
-  expect(result2).to eq("nigga")
+  expect(result2.message).to be_a(String)
+  @user.last_question_id = @question_seven.id
+  @user.save
+  result3 = RunSMS.run(:answer => "-1", :phone_number => "+1#{@user.phone_number}")
+  expect(result3.message).to be_a(String)
 
+  @question = Question.first(:id => @user.last_question_id)
+  @question_set_name = Questionset.first(:id => @question.questionset_id).name
+  expect(@question_set_name).to eq("biology")
   end
 
 end
