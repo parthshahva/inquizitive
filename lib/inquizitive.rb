@@ -10,4 +10,5 @@ require_relative './usecase/sign_out.rb'
 require_relative './usecase/sign_up.rb'
 require_relative './usecase/start_sms.rb'
 require_relative './usecase/runsms.rb'
-
+require_relative './usecase/list_sms.rb'
+require_relative './usecase/help.rb'

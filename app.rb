@@ -60,6 +60,10 @@ get '/respond' do
     result = StartSMS.run(:question_set_name => params[:Body].split[1], :phone_number => params[:From])
   elsif params[:Body].split[0].downcase == "finish"
     result = EndSMS.run(:phone_number => params[:From])
+  elsif params[:Body].split[0].downcase == "list"
+    result = ListSMS.run(:phone_number => params[:From])
+  elsif params[:Body].split[0].downcase == "helpme"
+    result = Help.run(:phone_number => params[:From])
   else
     result = RunSMS.run(:answer => params[:Body], :phone_number => params[:From])
   end
@@ -69,18 +73,18 @@ get '/respond' do
       r.Message "#{result.message}"
     elsif result.error?
       if result.error == :user_does_not_exist
-      r.Message "Sorry, user does not exist"
+      r.Message "Sorry, no account was found. Visit 'inquizitive.herokuapp.com/sign-up' to create an account."
       elsif result.error == :question_set_not_found
-        r.Message "Sorry, there is no question set found under your name"
+        r.Message "Sorry, the question set was not found. Text 'list' to list all your question sets."
+      elsif result.error == :question_sets_notfound
+        r.Message "Sorry, no question sets were found. Visit inquizitive.herokuapp.com to create sets."
       elsif result.error == :no_questions_in_set
-        r.Message "Sorry, there are no questions in that set"
+        r.Message "Sorry, there are no questions in that set. Visit inquizitive.herokuapp.com to add questions."
       elsif result.error == :no_session_in_progress
-        r.Message "Sorry, there is no Inquizitive session in progress"
+        r.Message "Sorry, there is no Inquizitive session in progress. Text 'begin' followed by question set name."
       elsif result.error == :session_not_active
-        r.Message "Sorry, there is no active session. Text 'Start' followed by the name of the question set"
+        r.Message "Sorry, there is no active session. Text 'begin' followed by question set name."
       end
-    else
-      r.Message "IDK bro"
     end
   end
   twiml.text
