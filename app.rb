@@ -14,6 +14,7 @@ end
 
 configure :production do
   DataMapper.setup(:default, ENV['DATABASE_URL'])
+  DataMapper.auto_migrate!
 end
 
 get '/' do
