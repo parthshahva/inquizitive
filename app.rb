@@ -67,7 +67,7 @@ post '/register' do
     :body => "Your verification code is #{code}")
     erb :register, :layout => :"sign-in-up-layout"
   else
-    erb :"sign-up", :"sign-in-up-layout"
+    erb :"sign-up", :layout => :"sign-in-up-layout"
   end
 end
 
