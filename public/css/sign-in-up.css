@@ -12,8 +12,13 @@ body {
   -o-background-size: cover;
   background-size: cover;
   text-align: center;
+}
+
+@media(min-width: 768px) {
+  body {
   display: table-cell;
   vertical-align: middle;
+  }
 }
 
 .logo {
