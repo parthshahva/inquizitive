@@ -10,8 +10,8 @@ class StartSMS < UseCase
      return failure(:no_questions_in_set) if questions.size == 0
 
      number = questions.size - 1
-     current_question_id = rand(0..number)
-     current_question = Question.get(questions[current_question_id])
+     index = rand(0..number)
+     current_question = questions[index]
      user.last_question_id = current_question.id
      user.save
      message = current_question.text
