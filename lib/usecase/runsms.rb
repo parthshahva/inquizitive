@@ -20,10 +20,12 @@ class RunSMS < UseCase
 
     current_question = Question.first(:questionset_id => question_set_id)
     percentages = []
-    if rand(0..1) == 1
+    if rand(0..2) != 0
       number = questions.count - 1
       current_question_id = rand(0..number)
       current_question = questions[current_question_id]
+
+
     else
       question_hash = {}
 
@@ -51,6 +53,12 @@ class RunSMS < UseCase
   current_question = Question.first(:id => percentages[index][:question_id])
   end
 
+
+    while user.last_question_id == current_question.id
+      number = questions.count - 1
+      current_question_id = rand(0..number)
+      current_question = questions[current_question_id]
+    end
     user.last_question_id = current_question.id
     user.save
     message = current_question.text
