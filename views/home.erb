@@ -1,5 +1,6 @@
-<h1>Welcome <%= @user.username %></h1>
-
+<div class="welcome">
+  <h1>Welcome <%= @user.username %></h1>
+</div>
 <% if @question_sets.count > 0 %>
   <h2>Question Sets</h2>
   <ul>
@@ -24,19 +25,30 @@
 <form action="/create-qset" method="POST">
   <label for="qset_name">Name: </label>
   <input type="text" name="qset_name" id="qset_name">
-  <input type="submit" value="create a question set">
+  <input class="btn btn-primary" type="submit" value="create a question set">
 </form>
 
 <h2>create a question</h2>
-<form action="/create-question" method="POST">
-  <label for="question_text">Question: </label>
-  <input type="text" name="question_text" id="question_text">
+<form action="/create-question" class="form-horizontal" method="POST" role="form">
+  <div class="form-group">
+    <label class="col-sm-2 control-label" for="question_text">Question: </label>
+    <div class="col-sm-10">
+      <input class="form-control" type="text" name="question_text" id="question_text">
+    </div>
+  </div>
 
-  <label for="answer">Answer: </label>
-  <input type="text" name="answer" id="answer">
+  <div class="form-group">
+    <label class="col-sm-2 control-label" for="answer">Answer: </label>
+    <div class="col-sm-10">
+      <input class="form-control" type="text" name="answer" id="answer">
+    </div>
+  </div>
 
-  <label for="question_set">Question Set: </label>
-  <input type="text" name="question_set" id="question_set">
-
-  <input class="btn btn-default" type="submit" value="Create Question">
+  <div class="form-group">
+    <label class="col-sm-2 control-label" for="question_set">Question Set: </label>
+    <div class="col-sm-10">
+      <input class="form-control" type="text" name="question_set" id="question_set">
+    </div>
+  </div>
+  <input class="btn btn-primary btn-lg btn-block block-submit" type="submit" value="Create Question">
 </form>
