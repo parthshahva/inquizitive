@@ -14,7 +14,7 @@
 
 <div class="row">
   <% if @question_sets.count > 0 %>
-    <h2>Question Sets</h2>
+    <h4>Question Sets</h4>
     <ul>
       <% @question_sets.each do |qset| %>
         <li><%= qset.name %></li>
@@ -35,7 +35,7 @@
 </div>
 
 <div class="row">
-  <h2>Create a question set:</h2>
+  <h4>Create a question set:</h4>
   <form action="/create-qset" class="form-inline" method="POST" role="form">
     <div class="form-group" id="qset-form">
         <label class="col-sm-2 control-label" for="qset_name">Name: </label>
@@ -48,7 +48,7 @@
 </div>
 
 <div class="row">
-  <h2>Create a question:</h2>
+  <h4>Create a question:</h4>
   <form action="/create-question" class="form-horizontal" method="POST" role="form">
     <div class="form-group">
       <label class="col-sm-2 control-label" for="question_text">Question: </label>
