@@ -3,7 +3,11 @@
 }
 
 .welcome {
- background-color: ;
+ padding-top: 10px;
+}
+
+.signout {
+  padding-top: 10px;
 }
 
 /*div.form-group {
