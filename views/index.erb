@@ -13,15 +13,25 @@
 
   <div class="row">
     <div class="span8 offset4">
-      <form action="/sign-in" method="POST">
-        <label for="username">Username: </label>
-        <input type="text" name="username" id="username"><br/>
-
-        <label for="password">Password: </label>
-        <input type="password" name="password" id="password">
-        <input class="btn btn-default" type="submit" value="sign in">
+      <form action="/sign-in" method="POST" class="form-horizontal">
+        <div class="control-group">
+          <div class="controls">
+            <input class="userinfo" type="text" id="username" name="username" placeholder="Username">
+          </div>
+        </div>
+        <div class="control-group">
+          <div class="controls">
+            <input class="userinfo" type="password" id="password" name="password" placeholder="Password">
+          </div>
+        </div>
+        <div class="control-group">
+          <div class="controls">
+            <input type="submit" class="signinbutton btn btn-default" value="Sign in">
+            <a class="signinbutton btn btn-default" href="/sign-up">Sign up</a>
+          </div>
+        </div>
       </form>
-      <a href="/sign-up">Sign up!</a>
+
     </div>
   </div>
 </div>
