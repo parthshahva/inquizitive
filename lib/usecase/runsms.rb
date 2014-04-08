@@ -57,8 +57,8 @@ class RunSMS < UseCase
 
     if response == "correct"
       user.correct_counter += 1
-      if user.correct_counter > user.longest_current_streak
-        user.longest_current_streak = user.correct_counter
+      if user.correct_counter > user.longest_correct_streak
+        user.longest_correct_streak = user.correct_counter
       end
       user.save
       success :message => "Correct. #{message}"
