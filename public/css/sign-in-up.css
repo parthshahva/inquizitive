@@ -21,3 +21,6 @@ body {
   color: white;
 }
 
+.control-group {
+  margin: 15px;
+}
