@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.1.1'
 
-
+gem 'rotp'
 gem 'sinatra'
 # gem 'dm-core'
 # gem 'dm-migrations'
@@ -16,3 +16,4 @@ gem 'rspec'
 gem 'rack-test'
 gem 'dotenv'
 gem 'sinatra-contrib'
+

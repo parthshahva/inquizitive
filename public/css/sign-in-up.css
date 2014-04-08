@@ -18,7 +18,8 @@ body {
 
 .logo {
   font-family: Lusitana;
-  font-size: 52px;
+  font-weight: bold;
+  font-size: 49px;
   color: white;
 }
 
@@ -32,6 +33,7 @@ body {
   border-radius: 5px;
   border: 0;
   padding: 8px;
+  /*background-color: #f1edd3;*/
 }
 
 .signinbutton {
@@ -39,4 +41,7 @@ body {
   border-radius: 5px;
   margin: 0 8px;
   width: 115px;
+  -webkit-font-smoothing: antialiased;
+  font-weight: bold;
+
 }
