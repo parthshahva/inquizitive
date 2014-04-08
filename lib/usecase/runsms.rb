@@ -11,7 +11,7 @@ class RunSMS < UseCase
 
     answer_checker = false
     answer_checker = true if question.answer.downcase == inputs[:answer].downcase
-    response = "incorrect"
+    response = "Incorrect"
     response = "correct" if answer_checker == true
 
     questions = Question.all(:questionset_id => question_set.id)
@@ -60,7 +60,7 @@ class RunSMS < UseCase
     if response == "correct"
       success :message => "Correct. #{message}"
     else
-      success :message => "You are #{response}. #{message}"
+      success :message => "#{response}. The answer is #{question.answer}. #{message}"
     end
   end
 end
