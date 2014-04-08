@@ -18,7 +18,7 @@ class RunSMS < UseCase
     return failure(:no_questions_in_set) if questions == []
     # Response.create(:correct => answer_checker, :question_id => question.id, :user_id => user.id)
 
-    current_question = 0
+    current_question = Question.first(:questionset_id => question_set_id)
     percentages = []
     if rand(0..1) == 1
       number = questions.count - 1
@@ -48,24 +48,17 @@ class RunSMS < UseCase
           percentages.push({:question_id => qid, :percent_correct => 0})
         end
       end
-
-  end
   percentages.sort_by! { |hash| hash[:percent_correct]}
-   index = (rand(questions.count)/2)
+  index = (rand(questions.count)/2)
+  current_question = Question.first(:id => percentages[index][:question_id])
+  end
 
-      index += 1 if index == 0
-
-
-
-      current_question = Question.first(:id => percentages[index][:question_id])
     user.last_question_id = current_question.id
     user.save
     message = current_question.text
-    if response == "correct"
-      success :message => "Correct. #{message}"
-    else
-      success :message => "Incorrect. The answer was #{question.answer}. #{message}"
-    end
+
+      success :message => "You are #{response}. The answer was #{question.answer}. #{message}"
+
   end
 end
 

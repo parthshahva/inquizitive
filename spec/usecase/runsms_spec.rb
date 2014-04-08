@@ -41,6 +41,7 @@ describe RunSMS do
   @question = Question.first(:id => @user.last_question_id)
   @question_set_name = Questionset.first(:id => @question.questionset_id).name
   expect(@question_set_name).to eq("biology")
+
   end
 
 end
