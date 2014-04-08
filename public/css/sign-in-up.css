@@ -2,6 +2,7 @@ html {
     display: table;
     height: 100%;
     width: 100%;
+    -webkit-font-smoothing: antialiased;
 }
 
 body {
@@ -17,10 +18,25 @@ body {
 
 .logo {
   font-family: Lusitana;
-  font-size: 58px;
+  font-size: 52px;
   color: white;
 }
 
 .control-group {
   margin: 15px;
+}
+
+.userinfo {
+  width: 250px;
+  height: 35px;
+  border-radius: 5px;
+  border: 0;
+  padding: 8px;
+}
+
+.signinbutton {
+  border: 0;
+  border-radius: 5px;
+  margin: 0 8px;
+  width: 115px;
 }
