@@ -51,7 +51,7 @@ class RunSMS < UseCase
 
       index = (rand(questions.count)/2)
 
-      current_question = Question.get(percentages[index].key)
+      current_question = Question.get(percentages[index][:question_id])
     end
     user.last_question_id = current_question_id
     user.save
