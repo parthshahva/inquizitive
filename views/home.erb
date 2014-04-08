@@ -1,5 +1,6 @@
 <div class="welcome">
   <h1>Welcome <%= @user.username %></h1>
+  <a href="/sign-out"><button class="btn btn-primmary">Sign Out</button></a>
 </div>
 <% if @question_sets.count > 0 %>
   <h2>Question Sets</h2>
