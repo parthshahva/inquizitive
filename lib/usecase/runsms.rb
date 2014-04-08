@@ -39,8 +39,6 @@ class RunSMS < UseCase
         end
       end
 
-
-
       question_hash.each do |qid, tally|
         if tally[:correct] + tally[:incorrect] != 0
         percentages.push({:question_id => qid, :percent_correct => tally[:correct]/(tally[:correct] + tally[:incorrect])})
@@ -58,8 +56,13 @@ class RunSMS < UseCase
     message = current_question.text
 
     if response == "correct"
+      user.counter = 0 if user.counter == nil
+      user.counter += 1
+      user.save
       success :message => "Correct. #{message}"
     else
+      user.counter = 0
+      user.save
       success :message => "#{response}. The answer is #{question.answer}. #{message}"
     end
   end
