@@ -2,3 +2,4 @@ vendor/
 .bundle
 .config
 inquizitive.db
+.env

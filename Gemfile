@@ -14,5 +14,4 @@ gem 'dm-sqlite-adapter', :group => :development
 # gem 'dm-constraints'
 gem 'rspec'
 gem 'rack-test'
-
-
+gem 'dotenv'
