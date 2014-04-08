@@ -44,6 +44,7 @@ class RunSMS < UseCase
         percentages.push({:question_id => qid, :percent_correct => tally[:correct]/(tally[:correct] + tally[:incorrect])})
         else
           percentages.push({:question_id => qid, :percent_correct => 0})
+        end
       end
 
       percentages.sort_by! { |hash| hash[:percent_correct]}
