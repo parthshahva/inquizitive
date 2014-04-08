@@ -3,11 +3,11 @@
 }
 
 .welcome {
- padding-top: 10px;
+ /*padding-top: 10px;*/
 }
 
 .signout {
-  padding-top: 10px;
+  margin-top: 10px;
 }
 
 /*div.form-group {
