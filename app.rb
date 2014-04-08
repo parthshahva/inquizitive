@@ -39,8 +39,23 @@ get '/sign-up' do
   erb :"sign-up", :layout => :"sign-in-up-layout"
 end
 
-post '/sign-up' do
+post '/verification' do
+  erb :register, :layout => :"sign-in-up-layout"
+end
+
+post '/verified' do
   @user = User.new(:username => params[:username], :password => params[:password], :phone_number => params[:phone_number].delete("^0-9"), correct_counter: 0, longest_correct_streak: 0)
+  if @user.save
+    redirect to("/")
+  else
+    if params[:password] != params[:confirm_password]
+      @message = "password does not match confirm password"
+    end
+      erb :"sign-up", :layout => :"sign-in-up-layout"
+  end
+end
+
+post '/sign-up' do
   if @user.save
     redirect to("/")
   else
