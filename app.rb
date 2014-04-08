@@ -22,9 +22,13 @@ post '/sign-in' do
 
     session[:key] = result.session_id
     redirect to ("/home")
+  elsif (result.error)
+    # @message = "#{result.error}"
+    @message = "incorrect username or password"
   else
-    @message = "#{result.error}"
+    @message = "username and password created!"
   end
+    erb :index
 end
 
 get '/sign-up' do
@@ -33,20 +37,16 @@ end
 
 post '/sign-up' do
   @user = User.new(:username => params[:username], :password => params[:password], :phone_number => params[:phone_number].delete("^0-9"))
-  # result = SignUp.run({:username => params[:username], :password => params[:password], :phone_number => params[:phone_number]})
-  if @user.valid?
-    @user.save
-    @message = "user created!"
+  if @user.save
+    redirect to("/")
   else
-    puts @user.errors.inspect
-    # @user.errors.each do |e|
-    #   puts e
-    # end
-    # @message = @user[:messages]
-
+    if params[:password] != params[:confirm_password]
+      @message = "password does not match confirm password"
+    end
+    erb :"sign-up"
   end
-  erb :index
-end
+  erb :"sign-up"
+  end
 
 
 get '/respond' do
@@ -82,13 +82,6 @@ get '/respond' do
   end
   twiml.text
 end
-
-
-
-
-
-
-
 
 get "/home" do
   key = session[:key]
