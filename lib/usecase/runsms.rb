@@ -54,7 +54,7 @@ class RunSMS < UseCase
     if response == "correct"
       success :message => "Correct. #{message}"
     else
-      success :message => "Incorrect. The answer was #{question.answer}"
+      success :message => "Incorrect. The answer was #{question.answer} #{message}"
     end
   end
 end
