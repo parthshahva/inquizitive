@@ -57,8 +57,11 @@ class RunSMS < UseCase
     user.save
     message = current_question.text
 
-      success :message => "You are #{response}. The answer was #{question.answer}. #{message}"
-
+    if response == "correct"
+      success :message => "Correct. #{message}"
+    else
+      success :message => "You are #{response}. #{message}"
+    end
   end
 end
 
