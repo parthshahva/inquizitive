@@ -1,5 +1,5 @@
-<div class="row">
-  <div class="col-md-10 welcome">Welcome <%= @user.username %>!</div>
+<div class="row top">
+  <div class="col-md-10 welcome"><h3>Welcome <%= @user.username %>!</h3></div>
   <div class="col-md-2"><a href="/sign-out"><button class="btn btn-primary">Sign Out</button></a></div>
 </div>
 
@@ -14,7 +14,7 @@
 
 <div class="row">
   <% if @question_sets.count > 0 %>
-    <h4>Question Sets</h4>
+    <h3>Question Sets</h3>
     <ul>
       <% @question_sets.each do |qset| %>
         <li><%= qset.name %></li>
@@ -35,7 +35,7 @@
 </div>
 
 <div class="row">
-  <h4>Create a question set:</h4>
+  <h3>Create a question set:</h3>
   <form action="/create-qset" class="form-inline" method="POST" role="form">
     <div class="form-group" id="qset-form">
         <label class="col-sm-2 control-label" for="qset_name">Name: </label>
@@ -48,7 +48,7 @@
 </div>
 
 <div class="row">
-  <h4>Create a question:</h4>
+  <h3>Create a question:</h3>
   <form action="/create-question" class="form-horizontal" method="POST" role="form">
     <div class="form-group">
       <label class="col-sm-2 control-label" for="question_text">Question: </label>
