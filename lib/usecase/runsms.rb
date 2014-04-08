@@ -55,9 +55,9 @@ class RunSMS < UseCase
 
       index += 1 if index == 0
 
-      id = percentages.keys[index]
 
-      current_question = Question.first(:id => percentages[id][:question_id])
+
+      current_question = Question.first(:id => percentages[index][:question_id])
     user.last_question_id = current_question.id
     user.save
     message = current_question.text
