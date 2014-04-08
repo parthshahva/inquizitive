@@ -17,10 +17,11 @@ class RunSMS < UseCase
     return failure(:no_questions_in_set) if questions == []
     Response.create(correct: answer_checker, question_id: question.id, user_id: user.id)
 
-    if rand(0..1)
-      number = questions.count
-      current_question_id = rand(1..number)
-      current_question = Question.get(current_question_id)
+    current_question = 0
+    if rand(0..1) == 1
+      number = questions.count - 1
+      current_question_id = rand(0..number)
+      current_question = questions[current_question_id]
     else
       question_hash = {}
 
