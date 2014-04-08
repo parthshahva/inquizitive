@@ -51,19 +51,23 @@ post '/register' do
   @phone_number = params[:phone_number]
   @username = params[:username]
   @password = params[:password]
-  if User.first(:username => params[:username]) != nil || User.first(:phone_number => params[:phone_number]) != nil
-    erb :"sign-up", :"sign-in-up-layout"
+  user = User.new
+  user.username = params[:username]
+  user.password = params[:password]
+  user.phone_number = params[:phone_number]
+  if user.save
+    user = User.create(:username => params[:username], :password => params[:password], :phone_number => params[:phone_number].delete("^0-9"), correct_counter: 0, longest_correct_streak: 0)
+    totp = ROTP::TOTP.new("drawtheowl")
+    code = totp.now
+    user.code = code
+    user.save
+    @client.account.sms.messages.create(
+    :from => @twilio_number,
+    :to => @phone_number,
+    :body => "Your verification code is #{code}")
+    erb :register, :layout => :"sign-in-up-layout"
   else
-  user = User.create(:username => params[:username], :password => params[:password], :phone_number => params[:phone_number].delete("^0-9"), correct_counter: 0, longest_correct_streak: 0)
-  totp = ROTP::TOTP.new("drawtheowl")
-  code = totp.now
-  user.code = code
-  user.save
-  @client.account.sms.messages.create(
-  :from => @twilio_number,
-  :to => @phone_number,
-  :body => "Your verification code is #{code}")
-  erb :register, :layout => :"sign-in-up-layout"
+    erb :"sign-up", :"sign-in-up-layout"
   end
 end
 

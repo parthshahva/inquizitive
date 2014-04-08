@@ -10,8 +10,8 @@ class User
   property :password, String, :length => 8..20, :required => true
   property :phone_number, String, :unique => true, :length => 10, :required => true
   property :last_question_id, Integer
-  property :correct_counter, Integer
-  property :longest_correct_streak, Integer
+  property :correct_counter, Integer, :default => 0
+  property :longest_correct_streak, Integer, :default => 0
   property :verified, Boolean, :default => false
   property :code, String, :length => 10
   has n, :questionset
