@@ -51,11 +51,8 @@ post '/register' do
   @phone_number = params[:phone_number]
   @username = params[:username]
   @password = params[:password]
-  user = User.new(:username => params[:username])
-  if user.save
-    user.password = @password
-    user.phone_number = @phone_number
-    user.save
+  user = User.new(:username => params[:username], :password => params[:password], :phone_number => params[:phone_number])
+  if User.all(:username => user.username).size == 1
     totp = ROTP::TOTP.new("drawtheowl")
     code = totp.now
     user.code = code
