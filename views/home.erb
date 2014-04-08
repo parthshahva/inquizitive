@@ -1,7 +1,8 @@
-<div class="welcome">
-  <h1>Welcome <%= @user.username %></h1>
-  <a href="/sign-out"><button class="btn btn-primmary">Sign Out</button></a>
+<div class="row">
+  <div class="span11 welcome"><h3>Welcome <%= @user.username %>!</h3></div>
+  <div class="span1"><a href="/sign-out"><button class="btn btn-primmary">Sign Out</button></a></div>
 </div>
+
 <div class="streaks">
   <br/>
   Current streak:
@@ -30,7 +31,7 @@
   <p class="lead">no question sets created!</p>
 <% end %>
 
-<h2>create a question set</h2>
+<h2>Create a question set:</h2>
 <form action="/create-qset" class="form-inline" method="POST" role="form">
   <div class="form-group" id="qset-form">
       <label class="col-sm-2 control-label" for="qset_name">Name: </label>
@@ -41,7 +42,7 @@
   </div>
 </form>
 
-<h2>create a question</h2>
+<h2>Create a question:</h2>
 <form action="/create-question" class="form-horizontal" method="POST" role="form">
   <div class="form-group">
     <label class="col-sm-2 control-label" for="question_text">Question: </label>
