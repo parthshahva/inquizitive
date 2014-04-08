@@ -6,7 +6,7 @@ class RunSMS < UseCase
 
     question = Question.first(:id => user.last_question_id)
     question_set = Questionset.first(:id => question.questionset_id)
-    # return failure(:question_set_not_found) if question_set.nil?
+
 
     answer_checker = false
     answer_checker = true if question.answer.downcase == inputs[:answer].downcase
