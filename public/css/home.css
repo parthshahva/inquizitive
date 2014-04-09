@@ -2,11 +2,15 @@
   font-family: 'Roboto', sans-serif;
 }
 
-.welcome h1 {
-  text-align: center;
+.welcome {
+ /*padding-top: 10px;*/
 }
 
-div.form-group {
+.signout {
+  margin-top: 15px;
+}
+
+/*div.form-group {
   position: relative;
   right: 100px;
 }
@@ -25,3 +29,4 @@ div.form-group {
     right: 27px;
     width: 95%;
   }
+
