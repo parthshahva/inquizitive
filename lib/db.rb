@@ -40,7 +40,7 @@ class Response
   include DataMapper::Resource
   property :id, Serial
   property :correct, Boolean
-  property :time, Timestamp
+  property :time, Datetime
   belongs_to :question
   belongs_to :user
 end
