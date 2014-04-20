@@ -145,12 +145,11 @@ post "/create-qset" do
   user = User.get(sess.user_id)
   question_set = Questionset.new(:name => params[:qset_name], :user_id => user.id)
 
-
-  if question_set.save
-    redirect to("/home")
-  else
+  if params[:qset_name]==nil
     @question_set_message = "Question set needs a name to be created!"
     erb :home
+  elsif question_set.save
+    redirect to("/home")
   end
 
 end
