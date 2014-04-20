@@ -149,8 +149,8 @@ post "/create-qset" do
   if question_set.save
     redirect to("/home")
   else
-    flash[:notice] = 'The question set needs a name to be created!'
-    redirect to("/home")
+    @question_set_message = "Question set needs a name to be created!"
+    erb :home
   end
 
 end
@@ -168,7 +168,8 @@ post '/create-question' do
     puts question
     redirect to ("/home")
   else
-    "this did not work"
+    @question_message = "Question needs a name to be created!"
+    erb :home
   end
 end
 
