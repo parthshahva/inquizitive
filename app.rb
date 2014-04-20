@@ -25,7 +25,6 @@ post '/sign-in' do
   result = SignIn.run({:username => params[:username], :password => params[:password]})
   if result.success?
     session[:key] = result.session_id
-    puts session[:key]
     redirect to ("/home")
   elsif result.error == :user_not_verified
     redirect to ('/register')
@@ -150,7 +149,8 @@ post "/create-qset" do
   if question_set.save
     redirect to("/home")
   else
-    "this didn't work"
+    flash[:notice] = 'The question set needs a name to be created!'
+    redirect to("/home")
   end
 
 end
