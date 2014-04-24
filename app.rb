@@ -18,19 +18,7 @@ configure :production do
 end
 
 post '/register' do
-  @twilio_number = '5122706595'
-  @client = Twilio::REST::Client.new ENV['account_sid'], ENV['auth_token']
-  @phone_number = params[:phone_number]
-  @username = params[:username]
-  @password = params[:password]
-  user = User.new(:username => params[:username], :password => params[:password], :phone_number => params[:phone_number])
-  if User.all(:username => user.username).size == 0 && User.all(:phone_number => user.phone_number).size == 0
-    totp = ROTP::TOTP.new("drawtheowl")
-    code = totp.now
-    user.code = code
-    user.save
-    @client.account.sms.messages.create(
-    :from => @twilio_number,
+  @twilio_numbwilio_number,
     :to => @phone_number,
     :body => "Your verification code is #{code}")
     erb :register, :layout => :"sign-in-up-layout"
@@ -86,19 +74,7 @@ get '/sign-up' do
   erb :"sign-up", :layout => :"sign-in-up-layout"
 end
 
-get '/respond' do
-  account_sid = ENV['ACCOUNT_SID']
-  auth_token = ENV['AUTH_TOKEN']
-  result = nil
-  if params[:Body].split[0].downcase == "begin"
-    result = StartSMS.run(:question_set_name => params[:Body].split[1], :phone_number => params[:From])
-  elsif params[:Body].split[0].downcase == "finish"
-    result = EndSMS.run(:phone_number => params[:From])
-  elsif params[:Body].split[0].downcase == "list"
-    result = ListSMS.run(:phone_number => params[:From])
-  elsif params[:Body].split[0].downcase == "helpme"
-    result = Help.run(:phone_number => params[:From])
-  else
+get '/respond'
     result = RunSMS.run(:answer => params[:Body], :phone_number => params[:From])
   end
 
@@ -134,31 +110,7 @@ get "/home" do
 
   @question_sets.map do |qset|
     questions = Question.all(:questionset_id => qset.id)
-    @all_questions[qset.id] = questions
-  end
-
-  puts @all_questions.inspect
-  erb :home
-end
-
-post "/create-qset" do
-  key = session[:key].to_i
-  sess = Session.get(key)
-  user = User.get(sess.user_id)
-  question_set = Questionset.new(:name => params[:qset_name], :user_id => user.id)
-
-
-  if question_set.save
-    redirect to("/home")
-  else
-    flash[:notice] = 'The question set needs a name to be created!'
-    redirect to("/home")
-  end
-
-end
-
-post '/create-question' do
-  key = session[:key]
+    @all_questions[qse
   sess = Session.get(session[:key])
   user = User.get(sess.user_id)
   #need use case question set does not exist
