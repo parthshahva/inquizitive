@@ -17,33 +17,6 @@ configure :production do
   DataMapper.auto_upgrade!
 end
 
-get '/' do
-  erb :index, :layout => :"sign-in-up-layout"
-end
-
-post '/sign-in' do
-  result = SignIn.run({:username => params[:username], :password => params[:password]})
-  if result.success?
-    session[:key] = result.session_id
-    redirect to ("/home")
-  elsif result.error == :user_not_verified
-    redirect to ('/register')
-  elsif result.error?
-    @message = "incorrect username or password"
-  end
-    erb :index, :layout => :"sign-in-up-layout"
-end
-
-get '/sign-out' do
-  puts session[:key]
-  result = SignOut.run(session_id: session[:key])
-  redirect to("/")
-end
-
-get '/register' do
-  erb :register, :layout => :"sign-in-up-layout"
-end
-
 post '/register' do
   @twilio_number = '5122706595'
   @client = Twilio::REST::Client.new ENV['account_sid'], ENV['auth_token']
@@ -65,6 +38,23 @@ post '/register' do
     erb :"sign-up", :layout => :"sign-in-up-layout"
   end
 end
+
+get '/' do
+  erb :index, :layout => :"sign-in-up-layout"
+end
+
+
+get '/sign-in' do
+  puts session[:key]
+  result = SignOut.run(session_id: session[:key])
+  redirect to("/")
+end
+
+get '/register' do
+  erb :register, :layout => :"sign-in-up-layout"
+end
+
+
 
 post '/verification' do
  user = User.first(:phone_number => params[:phone_number])
