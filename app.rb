@@ -17,6 +17,28 @@ configure :production do
   DataMapper.auto_upgrade!
 end
 
+post '/register' do
+  @twilio_number = '5122706595'
+  @client = Twilio::REST::Client.new ENV['account_sid'], ENV['auth_token']
+  @phone_number = params[:phone_number]
+  @username = params[:username]
+  @password = params[:password]
+  user = User.new(:username => params[:username], :password => params[:password], :phone_number => params[:phone_number])
+  if User.all(:username => user.username).size == 0 && User.all(:phone_number => user.phone_number).size == 0
+    totp = ROTP::TOTP.new("drawtheowl")
+    code = totp.now
+    user.code = code
+    user.save
+    @client.account.sms.messages.create(
+    :from => @twilio_number,
+    :to => @phone_number,
+    :body => "Your verification code is #{code}")
+    erb :register, :layout => :"sign-in-up-layout"
+  else
+    erb :"sign-up", :layout => :"sign-in-up-layout"
+  end
+end
+
 get '/' do
   erb :index, :layout => :"sign-in-up-layout"
 end
@@ -44,27 +66,7 @@ get '/register' do
   erb :register, :layout => :"sign-in-up-layout"
 end
 
-post '/register' do
-  @twilio_number = '5122706595'
-  @client = Twilio::REST::Client.new ENV['account_sid'], ENV['auth_token']
-  @phone_number = params[:phone_number]
-  @username = params[:username]
-  @password = params[:password]
-  user = User.new(:username => params[:username], :password => params[:password], :phone_number => params[:phone_number])
-  if User.all(:username => user.username).size == 0 && User.all(:phone_number => user.phone_number).size == 0
-    totp = ROTP::TOTP.new("drawtheowl")
-    code = totp.now
-    user.code = code
-    user.save
-    @client.account.sms.messages.create(
-    :from => @twilio_number,
-    :to => @phone_number,
-    :body => "Your verification code is #{code}")
-    erb :register, :layout => :"sign-in-up-layout"
-  else
-    erb :"sign-up", :layout => :"sign-in-up-layout"
-  end
-end
+
 
 post '/verification' do
  user = User.first(:phone_number => params[:phone_number])
