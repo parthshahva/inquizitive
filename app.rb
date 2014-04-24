@@ -43,20 +43,8 @@ get '/' do
   erb :index, :layout => :"sign-in-up-layout"
 end
 
-post '/sign-in' do
-  result = SignIn.run({:username => params[:username], :password => params[:password]})
-  if result.success?
-    session[:key] = result.session_id
-    redirect to ("/home")
-  elsif result.error == :user_not_verified
-    redirect to ('/register')
-  elsif result.error?
-    @message = "incorrect username or password"
-  end
-    erb :index, :layout => :"sign-in-up-layout"
-end
 
-get '/sign-out' do
+get '/sign-in' do
   puts session[:key]
   result = SignOut.run(session_id: session[:key])
   redirect to("/")
