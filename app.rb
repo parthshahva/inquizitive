@@ -21,6 +21,26 @@ get '/' do
   erb :index, :layout => :"sign-in-up-layout"
 end
 
+get '/recovery' do
+  erb :recovery, :layout => :"sign-in-up-layout"
+end
+
+post '/recovery' do
+  result = RecoverPassword.run({:username => params[:username], :phone_number => params[:phonenumber])
+  user = result.user
+  if result.success?
+    @twilio_number = '5122706595'
+    @client = Twilio::REST::Client.new ENV['account_sid'], ENV['auth_token']
+    @phone_number = params[:phonenumber]
+    @client.account.sms.messages.create(
+    :from => @twilio_number,
+    :to => @phone_number,
+    :body => "Your password is #{user.password}")
+  else
+    @message = "We could not find matching credentials"
+  end
+end
+
 post '/sign-in' do
   result = SignIn.run({:username => params[:username], :password => params[:password]})
   if result.success?

@@ -1,6 +1,6 @@
 <div class="row">
   <div class="span4">
-    <div class="logo">Inquizitive.</div>
+    <div class="logo">Text my password to me!</div>
   </div>
 </div>
 
@@ -8,14 +8,13 @@
   <div class="span4">
     <%if @message!=nil%>
     <div class="message"><%= @message %></div>
-    <div class="recovery"><a href="/recovery">Text my password to me!</a></div>
     <%end%>
   </div>
 </div>
 
 <div class="row">
   <div class="span4">
-    <form action="/sign-in" method="POST" class="form-horizontal">
+    <form action="/recovery" method="POST" class="form-horizontal">
       <div class="control-group">
         <div class="controls">
           <input class="userinfo" type="text" id="username" name="username" placeholder="Username">
@@ -23,13 +22,12 @@
       </div>
       <div class="control-group">
         <div class="controls">
-          <input class="userinfo" type="password" id="password" name="password" placeholder="Password">
+          <input class="userinfo" type="phonenumber" id="phonenumber" name="phonenumber" placeholder="Phone Number">
         </div>
       </div>
       <div class="control-group">
         <div class="controls">
-          <input type="submit" class="signinbutton btn btn-default" value="Sign in">
-          <a class="signinbutton btn btn-default" href="/sign-up">Sign up</a>
+          <input type="submit" class="signinbutton btn btn-default" value="Text me">
         </div>
       </div>
     </form>
