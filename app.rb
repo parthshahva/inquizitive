@@ -26,7 +26,7 @@ get '/recovery' do
 end
 
 post '/recovery' do
-  result = RecoverPassword.run({:username => params[:username], :phone_number => params[:phonenumber])
+  result = RecoverPassword.run({:username => params[:username], :phone_number => params[:phonenumber]})
   user = result.user
   if result.success?
     @twilio_number = '5122706595'
