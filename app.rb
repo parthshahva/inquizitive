@@ -36,6 +36,7 @@ post '/recovery' do
     :from => @twilio_number,
     :to => @phone_number,
     :body => "Your password is #{user.password}")
+    erb :index, :layout => :"sign-in-up-layout"
   else
     @message = "We could not find matching credentials"
   end
