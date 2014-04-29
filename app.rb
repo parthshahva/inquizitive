@@ -1,8 +1,6 @@
 require 'sinatra'
 require 'sinatra/contrib'
 require 'rotp'
-Dotenv.load
-
 enable :sessions
 require_relative 'lib/inquizitive.rb'
 
