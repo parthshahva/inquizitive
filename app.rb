@@ -62,8 +62,6 @@ get '/register' do
 end
 
 post '/register' do
-  @twilio_number = '5122706595'
-  @client = Twilio::REST::Client.new ENV['account_sid'], ENV['auth_token']
   @phone_number = params[:phone_number]
   @username = params[:username]
   @password = params[:password]
@@ -73,10 +71,7 @@ post '/register' do
     code = totp.now
     user.code = code
     user.save
-    @client.account.sms.messages.create(
-    :from => @twilio_number,
-    :to => @phone_number,
-    :body => "Your verification code is #{code}")
+    SendText.run(:phone_number => @phone_number, :body => "Your verification code is #{code}")
     erb :register, :layout => :"sign-in-up-layout"
   else
     erb :"sign-up", :layout => :"sign-in-up-layout"
@@ -116,27 +111,22 @@ get '/respond' do
   else
     result = RunSMS.run(:answer => params[:Body], :phone_number => params[:From])
   end
-
-  twiml = Twilio::TwiML::Response.new do |r|
     if result.success?
-      r.Message "#{result.message}"
+      SendText.run(:phone_number => params[:From], :body => "#{result.message}")
     elsif result.error?
       if result.error == :user_does_not_exist
-      r.Message "Sorry, no account was found. Visit 'inquizitive.herokuapp.com/sign-up' to create an account."
+        SendText.run(:phone_number => params[:From], :body => "Sorry, no account was found. Visit 'inquizitive.herokuapp.com/sign-up' to create an account.")
       elsif result.error == :question_set_not_found
-        r.Message "Sorry, the question set was not found. Text 'list' to list all your question sets."
-      elsif result.error == :question_sets_notfound
-        r.Message "Sorry, no question sets were found. Visit inquizitive.herokuapp.com to create sets."
+        SendText.run(:phone_number => params[:From], :body => "Sorry, the question set was not found. Text 'list' to list all your question sets.")
       elsif result.error == :no_questions_in_set
-        r.Message "Sorry, there are no questions in that set. Visit inquizitive.herokuapp.com to add questions."
+        SendText.run(:phone_number => params[:From], :body => "Sorry, there are no questions in that set. Visit inquizitive.herokuapp.com to add questions.")
       elsif result.error == :no_session_in_progress
-        r.Message "Sorry, there is no Inquizitive session in progress. Text 'begin' followed by question set name."
+        SendText.run(:phone_number => params[:From], :body => "Sorry, there is no Inquizitive session in progress. Text 'begin' followed by question set name.")
       elsif result.error == :session_not_active
-        r.Message "Sorry, there is no active session. Text 'begin' followed by question set name."
+        SendText.run(:phone_number => params[:From], :body => "Sorry, there is no active session. Text 'begin' followed by question set name.")
       end
     end
   end
-  twiml.text
 end
 
 get "/home" do
