@@ -30,7 +30,7 @@ post '/recovery' do
   user = result.user
   if result.success?
     @phone_number = params[:phonenumber]
-    Twilio.run(:phone_number => @phone_number, :body => "Your password is #{user.password}")
+    SendText.run(:phone_number => @phone_number, :body => "Your password is #{user.password}")
     erb :index, :layout => :"sign-in-up-layout"
   else
     @message = "We could not find matching credentials"
