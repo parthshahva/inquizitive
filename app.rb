@@ -1,7 +1,5 @@
 require 'sinatra'
 require 'sinatra/contrib'
-require 'twilio-ruby'
-require 'dotenv'
 require 'rotp'
 Dotenv.load
 
