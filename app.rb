@@ -1,13 +1,13 @@
 require 'sinatra'
 require 'sinatra/contrib'
 require 'rotp'
+require 'data_mapper'
 enable :sessions
 require_relative 'lib/inquizitive.rb'
 
-configure :development do
-  DataMapper.setup(:default, "sqlite://#{Dir.pwd}/inquizitive.db")
-end
-
+# DataMapper.setup(:default, "sqlite://#{Dir.pwd}/inquizitive.db")
+# User.all.destroy
+# user = User.create(:username => 'parth', :password => 'cheeseheads', :phone_number => '7576507728', :verified => true)
 configure :production do
   DataMapper.setup(:default, ENV['DATABASE_URL'])
   DataMapper.auto_upgrade!
@@ -15,6 +15,30 @@ end
 
 get '/' do
   erb :index, :layout => :"sign-in-up-layout"
+end
+
+get '/start' do
+  key = session[:key]
+  sess = Session.get(session[:key])
+  @user = User.get(sess.user_id)
+  SendText.run(:phone_number => @user.phone_number, :body => "Text 'begin' + the question set name to start! Type list to view your question sets.")
+  @textsent = "yes"
+  erb :home
+end
+
+get '/create' do
+  key = session[:key]
+  sess = Session.get(session[:key])
+  @user = User.get(sess.user_id)
+  #array of question_set objects
+  @question_sets = Questionset.all(:user_id => @user.id)
+  @all_questions = Hash.new
+
+  @question_sets.map do |qset|
+    questions = Question.all(:questionset_id => qset.id)
+    @all_questions[qset.id] = questions
+  end
+  erb :create
 end
 
 get '/recovery' do
@@ -93,8 +117,6 @@ get '/sign-up' do
 end
 
 get '/respond' do
-  account_sid = ENV['ACCOUNT_SID']
-  auth_token = ENV['AUTH_TOKEN']
   result = nil
   if params[:Body].split[0].downcase == "begin"
     result = StartSMS.run(:question_set_name => params[:Body].split[1], :phone_number => params[:From])

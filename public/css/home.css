@@ -10,23 +10,20 @@
   margin-top: 15px;
 }
 
-/*div.form-group {
-  position: relative;
-  right: 100px;
+.fa {
+
+}
+a.box {
+  text-decoration: none;
+  text-align: center;
+  color:#428bca;
 }
 
-#qset-form {
-  position: relative;
-  left: 5px;
+.smallerbox {
+  height: 100px;
+  background-color: white;
+  border-radius: 5px;
+  border: 1px solid black;
 }
 
-#qset-form .btn {
-  margin-left: 2px;
-}
-
-  .form-horizontal input.block-submit {
-    position: relative;
-    right: 27px;
-    width: 95%;
-  }
 

@@ -5,7 +5,7 @@ class ListSMS < UseCase
      question_sets = Questionset.all(:user_id => user.id)
      return failure(:question_sets_not_found) if question_sets == []
 
-     message = "Your Question Sets. "
+     message = "Your Question Sets: "
      question_sets.each do |x|
          message << x.name + ". "
      end
