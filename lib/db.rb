@@ -2,7 +2,7 @@
 # require 'dm-migrations'
 # require 'dm-constraints'
 require 'data_mapper'
-
+DataMapper.setup(:default, "sqlite://#{Dir.pwd}/inquizitive.db")
 class User
   include DataMapper::Resource
   property :id, Serial
@@ -43,6 +43,7 @@ class Response
   property :time, DateTime
   belongs_to :question
   belongs_to :user
+  belongs_to :questionset
 end
 
 class Session
@@ -51,4 +52,6 @@ class Session
   belongs_to :user
 end
 DataMapper.finalize
+DataMapper.auto_migrate!
+
 

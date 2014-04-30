@@ -6,8 +6,15 @@ enable :sessions
 require_relative 'lib/inquizitive.rb'
 
 # DataMapper.setup(:default, "sqlite://#{Dir.pwd}/inquizitive.db")
-# User.all.destroy
-# user = User.create(:username => 'parth', :password => 'cheeseheads', :phone_number => '7576507728', :verified => true)
+# user = User.create(:username => "parth", :password => "password", :verified => true, :phone_number => '7576507728')
+# question_set = Questionset.create(:name => "biology", :user_id => 1)
+# question_set_two = Questionset.create(:name => "chemistry", :user_id => 1)
+# question = Question.create(:text => "2+2", :answer => "4", :questionset_id => question_set.id)
+# question_two = Question.create(:text => "2+2", :answer => "4", :questionset_id => question_set.id)
+# Response.create(:correct => true, :question_id => question.id, :user_id => user.id, :questionset_id => question_set.id, :time => Time.now)
+# Response.create(:correct => true, :question_id => question.id, :user_id => user.id, :questionset_id => question_set.id, :time => Time.now)
+# Response.create(:correct => true, :question_id => question_two.id, :user_id => user.id, :questionset_id => question_two.questionset_id, :time => Time.now)
+
 configure :production do
   DataMapper.setup(:default, ENV['DATABASE_URL'])
   DataMapper.auto_upgrade!
@@ -24,6 +31,24 @@ get '/start' do
   SendText.run(:phone_number => @user.phone_number, :body => "Text 'begin' + the question set name to start! Type list to view your question sets.")
   @textsent = "yes"
   erb :home
+end
+
+get '/online' do
+  key = session[:key]
+  sess = Session.get(session[:key])
+  @user = User.get(sess.user_id)
+  @question_sets = Questionset.all(:user_id => @user.id)
+  @all_questions = Hash.new
+  @correct = Hash.new
+  @question_sets.map do |qset|
+    questions = Question.all(:questionset_id => qset.id)
+    @all_questions[qset.id] = questions
+    good = Response.all(:questionset_id => qset.id, :correct => true).count
+    bad = Response.all(:questionset_id => qset.id, :correct => false).count
+    @correct[qset.id] = good.to_f/(good + bad)*100
+    @correct[qset.id] = "Not Started" if Response.all(:questionset_id => qset.id).count == 0
+  end
+  erb :online
 end
 
 get '/create' do
@@ -151,16 +176,6 @@ get "/home" do
   key = session[:key]
   sess = Session.get(session[:key])
   @user = User.get(sess.user_id)
-  #array of question_set objects
-  @question_sets = Questionset.all(:user_id => @user.id)
-  @all_questions = Hash.new
-
-  @question_sets.map do |qset|
-    questions = Question.all(:questionset_id => qset.id)
-    @all_questions[qset.id] = questions
-  end
-
-  puts @all_questions.inspect
   erb :home
 end
 
@@ -172,7 +187,7 @@ post "/create-qset" do
 
 
   if question_set.save
-    redirect to("/home")
+    redirect to("/create")
   else
     "this didn't work"
   end
@@ -190,7 +205,7 @@ post '/create-question' do
 
   if question.save
     puts question
-    redirect to ("/home")
+    redirect to ("/create")
   else
     "this did not work"
   end

@@ -16,7 +16,7 @@ class RunSMS < UseCase
 
     questions = Question.all(:questionset_id => question_set.id)
     return failure(:no_questions_in_set) if questions == []
-    Response.create(:correct => answer_checker, :question_id => question.id, :user_id => user.id, :time => Time.now)
+    Response.create(:correct => answer_checker, :question_id => question.id, :user_id => user.id, :questionset_id => question.questionset_id, :time => Time.now)
 
     current_question = Question.first(:questionset_id => question_set_id)
     percentages = []

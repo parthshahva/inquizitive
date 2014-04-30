@@ -4,6 +4,7 @@ ruby '2.1.1'
 gem 'rotp'
 gem 'sinatra'
 gem 'data_mapper'
+gem 'sqlite3', :group => :development
 gem 'thin'
 gem 'twilio-ruby'
 gem 'dm-sqlite-adapter', :group => :development

@@ -26,4 +26,31 @@ a.box {
   border: 1px solid black;
 }
 
+.qsetcards {
+  height: 105px;
+  background-color: white;
+  border-radius: 5px;
+  border: 1px solid black;
+  margin-top: 30px;
+}
+
+.title {
+  height: 35px;
+  font-size: 25px;
+  border-bottom: 1px solid black;
+  text-align: center;
+  text-transform: capitalize;
+  text-decoration: bold;
+}
+
+.count {
+  font-size: 25px;
+  text-align: center;
+}
+
+.correct {
+  font-size: 20px;
+  text-align: center;
+  color: red;
+}
 
