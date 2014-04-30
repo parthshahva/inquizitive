@@ -51,6 +51,5 @@ class Session
   belongs_to :user
 end
 DataMapper.finalize
-DataMapper.auto_migrate!
 
 
