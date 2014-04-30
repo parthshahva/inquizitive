@@ -2,7 +2,6 @@
 # require 'dm-migrations'
 # require 'dm-constraints'
 require 'data_mapper'
-DataMapper.setup(:default, "sqlite://#{Dir.pwd}/inquizitive.db")
 class User
   include DataMapper::Resource
   property :id, Serial
