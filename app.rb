@@ -2,7 +2,7 @@ require 'sinatra'
 require 'sinatra/contrib'
 require 'rotp'
 require 'data_mapper'
-require 'JSON'
+require 'json'
 enable :sessions
 require_relative 'lib/inquizitive.rb'
 
