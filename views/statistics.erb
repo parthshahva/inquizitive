@@ -1,1 +1,9 @@
-statistics.erb
+Statistics for <%= @user.username %><br>
+Responses
+<% @all_responses.each do |response| %>
+Time: <%= response.time %><br>
+Q ID: <%= response.question_id %><br>
+Qset ID: <%= response.questionset_id %><br>
+Correct?: <%= response.correct %><br><br>
+<% end %>
+

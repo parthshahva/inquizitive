@@ -17,10 +17,22 @@ a.box {
 }
 
 .smallerbox {
-  height: 100px;
-  background-color: white;
-  border-radius: 5px;
-  border: 1px solid black;
+  height: 175px;
+  background-color: #1582c4;
+  border-radius: 2px;
+  border: 1px solid #0b94cd;
+  padding-top: 10px;
+  color: white;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-shadow: rgba(0,0,0,.01) 0 0 1px;
+}
+
+.smallerbox p {
+  font-size: 22px;
+}
+
+.smallerbox i {
+  font-size: 100px;
 }
 
 .qsetcards {
@@ -70,3 +82,12 @@ a.modal {
   font-size: 12px;
 }
 
+.navbar-brand {
+  font-family: Lusitana;
+  font-weight: bold;
+  font-size: 32px;
+}
+
+.create_container {
+  text-align: center;
+}
