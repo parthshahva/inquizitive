@@ -2,22 +2,26 @@ require 'sinatra'
 require 'sinatra/contrib'
 require 'rotp'
 require 'data_mapper'
+require 'pry-debugger'
+require 'JSON'
 enable :sessions
 require_relative 'lib/inquizitive.rb'
 
-# DataMapper.setup(:default, "sqlite://#{Dir.pwd}/inquizitive.db")
-# user = User.create(:username => "parth", :password => "password", :verified => true, :phone_number => '7576507728')
-# question_set = Questionset.create(:name => "biology", :user_id => 1)
-# question_set_two = Questionset.create(:name => "chemistry", :user_id => 1)
-# question = Question.create(:text => "2+2", :answer => "4", :questionset_id => question_set.id)
-# question_two = Question.create(:text => "2+2", :answer => "4", :questionset_id => question_set.id)
-# Response.create(:correct => true, :question_id => question.id, :user_id => user.id, :questionset_id => question_set.id, :time => Time.now)
-# Response.create(:correct => true, :question_id => question.id, :user_id => user.id, :questionset_id => question_set.id, :time => Time.now)
-# Response.create(:correct => true, :question_id => question_two.id, :user_id => user.id, :questionset_id => question_two.questionset_id, :time => Time.now)
+DataMapper.setup(:default, "sqlite://#{Dir.pwd}/inquizitive.db")
+DataMapper.auto_upgrade!
+DataMapper.auto_migrate!
+user = User.create(:username => "parth", :password => "password", :verified => true, :phone_number => '7576507728')
+question_set = Questionset.create(:name => "biology", :user_id => 1)
+question_set_two = Questionset.create(:name => "chemistry", :user_id => 1)
+question = Question.create(:text => "2+2", :answer => "4", :questionset_id => question_set.id)
+question_two = Question.create(:text => "2+2", :answer => "4", :questionset_id => question_set.id)
+Response.create(:correct => true, :question_id => question.id, :user_id => user.id, :questionset_id => question_set.id, :time => Time.now)
+Response.create(:correct => true, :question_id => question.id, :user_id => user.id, :questionset_id => question_set.id, :time => Time.now)
+Response.create(:correct => true, :question_id => question_two.id, :user_id => user.id, :questionset_id => question_two.questionset_id, :time => Time.now)
 
-configure :production do
-  DataMapper.setup(:default, ENV['DATABASE_URL'])
-end
+# configure :production do
+#   DataMapper.setup(:default, ENV['DATABASE_URL'])
+# end
 
 get '/' do
   erb :index, :layout => :"sign-in-up-layout"
@@ -45,9 +49,22 @@ get '/online' do
     good = Response.all(:questionset_id => qset.id, :correct => true).count
     bad = Response.all(:questionset_id => qset.id, :correct => false).count
     @correct[qset.id] = good.to_f/(good + bad)*100
+    @correct[qset.id] = @correct[qset.id].round(1)
     @correct[qset.id] = "Not Started" if Response.all(:questionset_id => qset.id).count == 0
   end
   erb :online
+end
+
+post '/answeronline' do
+  question_set = Questionset.first(:id => params[:questionsetid].to_i)
+  question = Question.first(:id => params[:questionid].to_i)
+  user = User.first(:id => question_set.user_id)
+  result = UseOnline.run(:phone_number => user.phone_number, :questionset_id => question_set.id, :question_id => question.id, :answer => params[:answer])
+  @correct = result.correct
+  @question = result.current_question
+  @object = {:correct => @correct, :question => @question.text, :answer => @question.answer, :questionset_id => question_set.id, :question_id => @question.id }
+  content_type :json
+  @object.to_json
 end
 
 get '/create' do

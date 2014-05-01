@@ -10,9 +10,6 @@
   margin-top: 15px;
 }
 
-.fa {
-
-}
 a.box {
   text-decoration: none;
   text-align: center;
@@ -52,5 +49,24 @@ a.box {
   font-size: 20px;
   text-align: center;
   color: red;
+}
+
+a.modal {
+  text-decoration: none;
+}
+
+#modal {
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+#answer {
+  color: gray;
+}
+
+#small {
+  color:gray;
+  font-size: 12px;
 }
 

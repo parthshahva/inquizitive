@@ -1,8 +1,20 @@
 <div class="row">
  <h3> Learn Online: Pick the Set </h3>
 </div>
+ <div id="templates">
+    <script type="text/template" class="questionreplacer">
+      <h2>{{question}}=?</h2>
+      <form action="/answeronline" method="post" id="question{{questionset_id}}">
+        <p id="answer"><input type="text" value="Answer:" name="answer"></p>
+        <input type="submit" value="Submit">
+        <input type="hidden" name="questionsetid" value="{{questionset_id}}">
+         <input type="hidden" name="questionid" value="{{question_id}}">
+      </form>
+    </script>
+  </div>
 <div class="row">
 <%@question_sets.each do |set| %>
+<a href="#" data-toggle="modal" data-target=".modal<%=set.id%>" class="linkme">
   <div class="col-md-3">
     <div class="qsetcards">
       <div class="title">
@@ -21,6 +33,46 @@
       </div>
     </div>
   </div>
+</a>
+<div class="modal modal<%=set.id%> fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content" id="modal">
+      <div class="replace<%=set.id%>">
+      <%if @all_questions[set.id].count > 0%>
+      <h2><%=@all_questions[set.id].first.text%>=?</h2>
+      <form action="/answeronline" method="post" id="question<%=set.id%>">
+        <p id="answer"><input type="text" value="Answer:" name="answer"></p>
+        <input type="submit" value="Submit">
+        <input type="hidden" name="questionsetid" value="<%=set.id%>">
+         <input type="hidden" name="questionid" value="<%=@all_questions[set.id].first.id%>">
+      </form>
+      <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+      <script src="js/Robin.js"></script>
+      <script>
+       $('form#question<%=set.id%>').on('submit',function(e){
+          e.preventDefault();
+          data = $('form#question<%=set.id%>').serialize();
+          console.log(data)
+          $.post('/answeronline', data, function(data){
+
+           console.log(data);
+           $('.replace<%=set.id%>').html('')
+        });
+  });
+      </script>
+      <%else %>
+      There are no questions in this question set.
+      <%end%>
+    </div>
+    </div>
+  </div>
+</div>
+
   <%end%>
 </div>
+
+
+
+
+
 
