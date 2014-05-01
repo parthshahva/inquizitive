@@ -61,12 +61,17 @@ a.modal {
   padding-bottom: 20px;
 }
 
-#answer {
+.answer {
   color: gray;
 }
 
 #small {
   color:gray;
   font-size: 12px;
+}
+
+.infotouser {
+  color:red;
+  font-size: 15px;
 }
 

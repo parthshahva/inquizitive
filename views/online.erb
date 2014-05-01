@@ -3,12 +3,13 @@
 </div>
  <div id="templates">
     <script type="text/template" class="questionreplacer">
-      <h2>{{question}}=?</h2>
-      <form action="/answeronline" method="post" id="question{{questionset_id}}">
-        <p id="answer"><input type="text" value="Answer:" name="answer"></p>
-        <input type="submit" value="Submit">
+      <form action="/answeronline" method="post" class="formreplace" data-id={{questionset_id}}>
+        <p class="infotouser">{{correct}}</p>
+        <h2>{{question}}=?</h2>
+        <p class="answer"><input type="text" value="Answer:" name="answer"></p>
         <input type="hidden" name="questionsetid" value="{{questionset_id}}">
          <input type="hidden" name="questionid" value="{{question_id}}">
+         <input type="submit" value="Submit">
       </form>
     </script>
   </div>
@@ -27,7 +28,7 @@
         <% else %>
           <%= "Questions" %>
         <% end %>
-        <div class="correct">
+        <div class="correct" data-id=<%=set.id%>>
           <%=@correct[set.id]%><%='%' if @correct[set.id] != 'Not Started' %>
         </div>
       </div>
@@ -37,29 +38,15 @@
 <div class="modal modal<%=set.id%> fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm">
     <div class="modal-content" id="modal">
-      <div class="replace<%=set.id%>">
+      <div class="replace" data-id = <%=set.id%>>
       <%if @all_questions[set.id].count > 0%>
-      <h2><%=@all_questions[set.id].first.text%>=?</h2>
-      <form action="/answeronline" method="post" id="question<%=set.id%>">
+      <form action="/answeronline" method="post" class="formreplace" data-id=<%=set.id%> >
+        <h2><%=@all_questions[set.id].first.text%>=?</h2>
         <p id="answer"><input type="text" value="Answer:" name="answer"></p>
-        <input type="submit" value="Submit">
         <input type="hidden" name="questionsetid" value="<%=set.id%>">
          <input type="hidden" name="questionid" value="<%=@all_questions[set.id].first.id%>">
+         <input type="submit" value="Submit">
       </form>
-      <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-      <script src="js/Robin.js"></script>
-      <script>
-       $('form#question<%=set.id%>').on('submit',function(e){
-          e.preventDefault();
-          data = $('form#question<%=set.id%>').serialize();
-          console.log(data)
-          $.post('/answeronline', data, function(data){
-
-           console.log(data);
-           $('.replace<%=set.id%>').html('')
-        });
-  });
-      </script>
       <%else %>
       There are no questions in this question set.
       <%end%>
@@ -74,5 +61,21 @@
 
 
 
-
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+      <script src="js/Robin.js"></script>
+      <script>
+       $('body').on('submit','form.formreplace', function(e){
+          e.preventDefault();
+          blue = $(this).serialize();
+          $.post('/answeronline', blue, function(data){
+             console.log(data);
+             var template = $("#templates .questionreplacer").html();
+             object = {correct: data['correct'], question: data['question'], questionset_id: data['questionset_id'], question_id: data['question_id'], percentage: data['percentage'] };
+             var rendered_template = Robin.render(template, object);
+             $('.replace[data-id=' +object.questionset_id+ ']').html(rendered_template);
+             console.log(object.percentage);
+             $('.correct[data-id=' +object.questionset_id+ ']').html(object.percentage+'%');
+             });
+        });
+      </script>
 

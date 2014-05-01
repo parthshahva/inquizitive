@@ -60,9 +60,14 @@ post '/answeronline' do
   question = Question.first(:id => params[:questionid].to_i)
   user = User.first(:id => question_set.user_id)
   result = UseOnline.run(:phone_number => user.phone_number, :questionset_id => question_set.id, :question_id => question.id, :answer => params[:answer])
+  good = Response.all(:questionset_id => question_set.id, :correct => true).count
+  bad = Response.all(:questionset_id => question_set.id, :correct => false).count
+  percentage = good.to_f/(good + bad)*100
+  percentage = percentage.round(1)
   @correct = result.correct
   @question = result.current_question
-  @object = {:correct => @correct, :question => @question.text, :answer => @question.answer, :questionset_id => question_set.id, :question_id => @question.id }
+  @object = {:correct => @correct, :question => @question.text, :answer => @question.answer, :questionset_id => question_set.id, :question_id => @question.id, :percentage => percentage}
+
   content_type :json
   @object.to_json
 end
