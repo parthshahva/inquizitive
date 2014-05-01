@@ -10,7 +10,7 @@
       <form action="/answeronline" method="post" class="formreplace" data-id={{questionset_id}}>
         <p class="infotouser">{{correct}}</p>
         <h2>{{question}}=?</h2>
-        <p class="answer"><input type="text" value="Answer:" name="answer"></p>
+        <p class="answer"><input type="text" placeholder="Answer:" name="answer"></p>
         <input type="hidden" name="questionsetid" value="{{questionset_id}}">
          <input type="hidden" name="questionid" value="{{question_id}}">
          <input type="submit" value="Submit">
