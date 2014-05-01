@@ -233,20 +233,5 @@ post '/create-question' do
   end
 end
 
-get '/statistics' do
-  key = session[:key]
-  sess = Session.get(session[:key])
-  @user = User.get(sess.user_id)
-  @all_responses = Response.all(:user_id => @user.id)
-
-  # Create a hash with key qsetid, value { correct: count, total_answered: count}
-  @history = {}
-  @all_responses.each do |response|
-    @history[response.questionset_id] ||= { total: 0, correct: 0 }
-    @history[response.questionset_id][:total] += 1
-    @history[response.questionset_id][:correct] += 1 if response.correct
-  end
-  erb :statistics
-end
 
 

@@ -1,5 +1,9 @@
 <div class="row">
- <h3> Learn Online: Pick the Set </h3>
+  <div class="col-md-1"></div>
+  <div class="col-md-10">
+    <h3> Learn Online: Pick the Set </h3>
+  </div>
+  <div class="col-md-1"></div>
 </div>
  <div id="templates">
     <script type="text/template" class="questionreplacer">
@@ -14,9 +18,11 @@
     </script>
   </div>
 <div class="row">
+  <div class="col-md-1"></div>
+  <div class="col-md-10">
 <%@question_sets.each do |set| %>
 <a href="#" data-toggle="modal" data-target=".modal<%=set.id%>" class="linkme">
-  <div class="col-md-3">
+  <div class="col-md-4">
     <div class="qsetcards">
       <div class="title">
         <b><%=set.name%></b>
@@ -29,7 +35,7 @@
           <%= "Questions" %>
         <% end %>
         <div class="correct" data-id=<%=set.id%>>
-          <%=@correct[set.id]%><%='%' if @correct[set.id] != 'Not Started' %>
+          <%=@correct[set.id]%><%='%' if @correct[set.id] != 'Not Started' %><br>
         </div>
       </div>
     </div>
@@ -56,6 +62,8 @@
 </div>
 
   <%end%>
+  </div>
+  <div class="col-md-1"></div>
 </div>
 
 
@@ -78,4 +86,3 @@
              });
         });
       </script>
-
