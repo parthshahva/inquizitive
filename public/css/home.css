@@ -73,7 +73,7 @@ a.modal {
   padding-bottom: 20px;
 }
 
-#answer {
+.answer {
   color: gray;
 }
 
@@ -91,3 +91,8 @@ a.modal {
 .create_container {
   text-align: center;
 }
+.infotouser {
+  color:red;
+  font-size: 15px;
+}
+
